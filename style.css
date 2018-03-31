@@ -1,0 +1,55 @@
+/* https://aykevl.nl/2014/09/fix-jumping-scrollbar */
+@media screen and (min-width: 55rem) {
+	html {
+		margin-left: calc(100vw - 100%);
+		margin-right: 0;
+	}
+}
+
+body {
+	max-width: 50rem;
+	margin: 0 auto;
+}
+
+#templates {
+	display: none;
+}
+
+/* small screen */
+.hide-nav #tree {
+	display: none;
+}
+
+body:not(.hide-nav) .toggle-nav {
+	font-weight: bold;
+}
+
+@media (min-width: 40rem) { /* big screen */
+	.toggle-nav {
+		display: none;
+	}
+	.hide-nav #tree {
+		display: block;
+	}
+
+	#tree {
+		max-width: calc(12rem - 15px);
+		float: left;
+	}
+
+	#main {
+		margin-left: 12rem;
+	}
+}
+
+.nav-item.credential .nav-link {
+	padding-left: 2rem;
+}
+
+.path {
+	font-family: monospace;
+}
+
+.attribute dt.name {
+	margin-top: 1rem;
+}
