@@ -30,10 +30,15 @@ def readCredential(path):
         'name':              translated(xml.getElementsByTagName('Name')[0]),
         'shortName':         translated(xml.getElementsByTagName('ShortName')[0]),
         'description':       translated(xml.getElementsByTagName('Description')[0]),
-        'shouldBeSingleton': BOOL[getText(xml.getElementsByTagName('ShouldBeSingleton')[0])],
         'logo':              path + '/logo.png',
+        'shouldBeSingleton': False, # default?
         'attributes':        [],
     }
+
+    singletonElements = xml.getElementsByTagName('ShouldBeSingleton')
+    if singletonElements:
+        # Not all credential descriptions have a ShouldBeSingleton element.
+        credential['shouldBeSingleton'] = BOOL[getText(singletonElements[0])],
 
     for attribute in xml.getElementsByTagName('Attributes')[0].childNodes:
         if attribute.nodeType != attribute.ELEMENT_NODE:
@@ -83,7 +88,7 @@ def makeIndex(path):
 
 
 if __name__ == '__main__':
-    schememanagers = ['pbdf-schememanager']
+    schememanagers = ['pbdf-schememanager', 'irma-demo-schememanager']
     index = {}
     for path in schememanagers:
         id, data = makeIndex(path)

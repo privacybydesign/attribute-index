@@ -44,7 +44,7 @@ function hashchange(e) {
     var schemeId = parts[0];
     var issuerId = parts[1];
     var schemeManager = data[schemeId];
-    var issuer = schemeManager.issuers[schemeId];
+    var issuer = schemeManager.issuers[issuerId];
     main.querySelector('.name').innerText = issuer.name[LANG];
     main.querySelector('.logo').setAttribute('src', issuer.logo);
     main.querySelector('.path').innerText = schemeId + '.' + issuerId;
