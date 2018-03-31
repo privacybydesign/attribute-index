@@ -46,6 +46,21 @@ def readCredential(path):
 
     return credential
 
+def readSchemeManager(path):
+    xml = minidom.parse(path + '/description.xml')
+    index = {
+        'shortName':    translated(xml.getElementsByTagName('ShortName')[0]),
+        'name':         translated(xml.getElementsByTagName('Name')[0]),
+        'contactEmail': getText(xml.getElementsByTagName('ContactEMail')[0]),
+        'logo':         path + '/logo.png',
+        'credentials':  {},
+    }
+
+    for fn in sorted(os.listdir(path + '/Issues')):
+        index['credentials'][fn] = readCredential(path + '/Issues/' + fn)
+
+    return index
+
 def makeIndex(path):
     index = {}
 
@@ -56,16 +71,13 @@ def makeIndex(path):
         'description': translated(xml.getElementsByTagName('Description')[0]),
         'url':         getText(xml.getElementsByTagName('Url')[0]),
         'contact':     getText(xml.getElementsByTagName('Contact')[0]),
+        'issuers':     {},
     }
 
-    xml = minidom.parse(path + '/' + id + '/description.xml')
-    index['shortName'] = translated(xml.getElementsByTagName('ShortName')[0])
-    index['contactEmail'] = getText(xml.getElementsByTagName('ContactEMail')[0])
-    index['logo'] = path + '/' + id + '/logo.png'
-    index['credentials'] = {}
-
-    for fn in sorted(os.listdir(path + '/' + id + '/Issues')):
-        index['credentials'][fn] = readCredential(path + '/' + id + '/Issues/' + fn)
+    for fn in sorted(os.listdir(path)):
+        schemeManagerPath = path + '/' + fn
+        if os.path.exists(schemeManagerPath + '/description.xml'):
+            index['issuers'][fn] = readSchemeManager(schemeManagerPath)
 
     return id, index
 

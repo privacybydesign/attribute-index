@@ -39,33 +39,38 @@ function hashchange(e) {
       schememanager.querySelector('.name').setAttribute('href', '#' + schemeId);
       schememanager.querySelector('.description').innerText = schemeData.description[LANG];
     }
-  } else if (parts.length == 1) {
+  } else if (parts.length == 2) {
     main.innerHTML = document.querySelector('#templates > .page-schememanager').innerHTML;
     var schemeId = parts[0];
-    var root = data[schemeId];
-    main.querySelector('.name').innerText = root.name[LANG];
-    main.querySelector('.logo').setAttribute('src', root.logo);
-    main.querySelector('.path').innerText = schemeId;
-    main.querySelector('.description').innerText = root.description[LANG];
-    main.querySelector('.shortName').innerText = root.shortName[LANG];
-    main.querySelector('.contact a').innerText = root.contact;
-    main.querySelector('.contact a').setAttribute('href', root.contact);
-    main.querySelector('.contactEmail a').innerText = root.contactEmail;
-    main.querySelector('.contactEmail a').setAttribute('href', root.contactEmail);
-    main.querySelector('.url').innerText = root.url;
-    var credentialIds = Object.keys(root.credentials);
+    var issuerId = parts[1];
+    var schemeManager = data[schemeId];
+    var issuer = schemeManager.issuers[schemeId];
+    main.querySelector('.name').innerText = issuer.name[LANG];
+    main.querySelector('.logo').setAttribute('src', issuer.logo);
+    main.querySelector('.path').innerText = schemeId + '.' + issuerId;
+    main.querySelector('.description').innerText = schemeManager.description[LANG];
+    main.querySelector('.shortName').innerText = issuer.shortName[LANG];
+    main.querySelector('.contact a').innerText = schemeManager.contact;
+    main.querySelector('.contact a').setAttribute('href', schemeManager.contact);
+    main.querySelector('.contactEmail a').innerText = issuer.contactEmail;
+    main.querySelector('.contactEmail a').setAttribute('href', 'mailto:' + issuer.contactEmail);
+    main.querySelector('.url').innerText = schemeManager.url;
+    var credentialIds = Object.keys(issuer.credentials);
     credentialIds.sort();
     for (var credentialId of credentialIds) {
-      var credentialData = root.credentials[credentialId];
+      var credentialData = issuer.credentials[credentialId];
       main.querySelector('.credentials').innerHTML += document.querySelector('#templates > .fragment-credential').innerHTML;
       var credential = main.querySelector('.credentials .credential:last-child');
       credential.querySelector('.name').innerText = credentialData.name[LANG];
-      credential.querySelector('.name').setAttribute('href', '#' + schemeId + '.' + credentialId);
+      credential.querySelector('.name').setAttribute('href', '#' + schemeId + '.' + issuerId + '.' + credentialId);
       credential.querySelector('.description').innerText = credentialData.description[LANG];
     }
-  } else if (parts.length == 2) {
+  } else if (parts.length == 3) {
     main.innerHTML = document.querySelector('#templates > .page-credential').innerHTML;
-    var credential = data[parts[0]].credentials[parts[1]];
+    var schemeId = parts[0];
+    var issuerId = parts[1];
+    var credentialId = parts[2];
+    var credential = data[schemeId].issuers[issuerId].credentials[credentialId];
     main.querySelector('.name').innerText = credential.name[LANG];
     main.querySelector('.path').innerText = parts.join('.');
     main.querySelector('.logo').setAttribute('src', credential.logo);
@@ -90,21 +95,24 @@ function buildMenuTree() {
   tree.appendChild(document.querySelector('#templates > .treenode-about').children[0].cloneNode(true));
   for (var schemeId in data) {
     var schemeData = data[schemeId];
-    var rootItem = document.querySelector('#templates > .treenode-schememanager').children[0].cloneNode(true);
-    tree.appendChild(rootItem);
-    var rootEl = rootItem.querySelector('.nav-link');
-    rootEl.innerText = schemeData.shortName[LANG];
-    rootEl.setAttribute('title', schemeData.name[LANG]);
-    rootEl.setAttribute('href', '#' + schemeId);
-    var ids = Object.keys(schemeData.credentials);
-    ids.sort();
-    for (var credentialId of ids) {
-      var credentialData = schemeData.credentials[credentialId];
-      rootItem.innerHTML += document.querySelector('#templates > .treenode-credential').innerHTML;
-      var credentialEl = rootItem.querySelector('.credential:last-child');
-      credentialEl.querySelector('a').innerText = credentialData.shortName[LANG];
-      credentialEl.querySelector('a').setAttribute('title', credentialData.name[LANG]);
-      credentialEl.querySelector('a').setAttribute('href', '#' + schemeId + '.' + credentialId);
+    for (var issuerId in schemeData.issuers) {
+      var issuerData = schemeData.issuers[issuerId];
+      var rootItem = document.querySelector('#templates > .treenode-schememanager').children[0].cloneNode(true);
+      tree.appendChild(rootItem);
+      var rootEl = rootItem.querySelector('.nav-link');
+      rootEl.innerText = issuerData.shortName[LANG];
+      rootEl.setAttribute('title', issuerData.name[LANG]);
+      rootEl.setAttribute('href', '#' + schemeId + '.' + issuerId);
+      var ids = Object.keys(issuerData.credentials);
+      ids.sort();
+      for (var credentialId of ids) {
+        var credentialData = issuerData.credentials[credentialId];
+        rootItem.innerHTML += document.querySelector('#templates > .treenode-credential').innerHTML;
+        var credentialEl = rootItem.querySelector('.credential:last-child');
+        credentialEl.querySelector('a').innerText = credentialData.shortName[LANG];
+        credentialEl.querySelector('a').setAttribute('title', credentialData.name[LANG]);
+        credentialEl.querySelector('a').setAttribute('href', '#' + schemeId + '.' + issuerId + '.' + credentialId);
+      }
     }
   }
   //$('[data-toggle="tooltip"]', tree).tooltip()
