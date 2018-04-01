@@ -6,10 +6,10 @@ const MAX_SEARCH = 8; // max number of search results in the results dropdown
 var index;
 
 function searchChange(e) {
-  var string = e.target.value;
+  var string = e.target.value.toLowerCase();
   var searchresults = document.querySelector('#searchresults');
   searchresults.innerHTML = '';
-  if (!searchresults.classList.contains('show')) {
+  if (searchresults.classList.contains('show') != (string != '')) {
     // Ugly hack: use a fake button click to show the search results.
     document.querySelector('.search button.dropdown-toggle').click();
   }
@@ -40,7 +40,7 @@ function doSearch(searchresults, string) {
       for (var j=0; j<credentialKeys.length; j++) {
         var credential = issuer.credentials[credentialKeys[j]];
         for (var attribute of credential.attributes) {
-          if (attribute.path.indexOf(string) >= 0 || attribute.name[LANG].toLowerCase().indexOf(string) >= 0) {
+          if (attribute.path.toLowerCase().indexOf(string) >= 0 || attribute.name[LANG].toLowerCase().indexOf(string) >= 0) {
             seen[attribute.path] = null; // insert into set
             count++;
             var el = document.querySelector('#templates > .searchresult').cloneNode(true);
