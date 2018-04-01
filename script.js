@@ -1,6 +1,6 @@
 'use strict';
 
-var data;
+var index;
 
 function doSearch(e) {
   var string = e.target.value;
@@ -24,7 +24,7 @@ function init() {
   req.open('GET', INDEX_URL);
   req.send();
   req.onload = function(e) {
-    data = JSON.parse(req.responseText);
+    index = JSON.parse(req.responseText);
   }
 
   //$('[data-toggle="tooltip"]', tree).tooltip()
