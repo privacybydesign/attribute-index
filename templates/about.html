@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}About{% endblock title %}
+
+{% block main %}
+	<h2>About</h2>
+	<p>Here you will find an overview of all credentials currently issued by or known to the Privacy by Design Foundation.</p>
+	<h3>Scheme managers</h3>
+	<dl class="schememanagers">
+		{% for schememgr in index %}
+		<dt><a href="{{ schememgr.id }}.html">{{ schememgr.name[LANG] }}</a></dt>
+		<dd>{{ schememgr.description[LANG] }}
+			<ul>
+				{% for issuerId, issuer in schememgr.issuers.items() | sort %}
+				<li><a href="{{ issuer.path }}.html">{{ issuer.name[LANG] }}</a></li>
+				{% endfor %}
+			</ul>
+		</dd>
+		{% endfor %}
+	</dl>
+{% endblock main %}
