@@ -9,7 +9,10 @@ function searchChange(e) {
   var string = e.target.value;
   var searchresults = document.querySelector('#searchresults');
   searchresults.innerHTML = '';
-  searchresults.classList.toggle('show', string.length != 0);
+  if (!searchresults.classList.contains('show')) {
+    // Ugly hack: use a fake button click to show the search results.
+    document.querySelector('.search button.dropdown-toggle').click();
+  }
 
   if (!string) {
     return;

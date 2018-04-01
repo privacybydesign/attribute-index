@@ -50,6 +50,13 @@ body.show-nav .toggle-nav {
 	margin-top: 1rem;
 }
 
+#searchresults {
+	/* Sorry about this... It is required to correctly position the search box
+	 * when using a d-none button to toggle the dropdown. */
+	top: initial !important;
+	transform: initial !important;
+}
+
 #templates {
 	display: none;
 }
