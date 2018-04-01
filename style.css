@@ -11,10 +11,6 @@ body {
 	margin: 0 auto;
 }
 
-body.in-search #tree .nav-item {
-	display: none;
-}
-
 /* small screen */
 body:not(.show-nav) #tree {
 	display: none;
@@ -52,4 +48,8 @@ body.show-nav .toggle-nav {
 
 .attributes dt.name {
 	margin-top: 1rem;
+}
+
+#templates {
+	display: none;
 }

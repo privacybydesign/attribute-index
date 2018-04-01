@@ -20,7 +20,10 @@
 			<a class="toggle-nav btn btn-light float-right mt-2" href onclick="return false;">☰</a>
 			<h1>IRMA credentials</h1>
 			<ul id="tree" class="nav nav-pills flex-column" role="navigation"/>
-				<li class="search"><input type="search" class="form-control mb-2" placeholder="Search..."/></li>
+				<li class="search dropdown">
+					<input type="search" class="form-control mb-2" placeholder="Search..."/>
+					<div id="searchresults" class="dropdown-menu"></div>
+				</li>
 				<li class="nav-item">
 					<a class="nav-link {{ "" | active(path) }}" href=".">About</a>
 				</li>
@@ -41,6 +44,15 @@
 			</ul>
 			<div id="main">
 				{% block main %}{% endblock %}
+			</div>
+		</div>
+		<div id="templates">
+			<a class="searchresult dropdown-item">
+				<div><span class="credential"></span> » <span class="attribute"></span></div>
+				<div class="path"></div>
+			</a>
+			<div class="no-searchresult dropdown-item disabled">
+				No attributes found
 			</div>
 		</div>
 	</body>
