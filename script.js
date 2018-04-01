@@ -1,14 +1,5 @@
 'use strict';
 
-const LANG = 'en'; // TODO
-
-const MESSAGES = {
-  'en': {
-    'yes': 'Yes',
-    'no': 'No',
-  }
-}[LANG];
-
 var data;
 
 function doSearch(e) {
