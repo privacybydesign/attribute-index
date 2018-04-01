@@ -144,5 +144,5 @@ if __name__ == '__main__':
     index = []
     for path in schememanagers:
         index.append(readSchemeManager(path))
-    json.dump(index, open('data.json', 'w'))
+    json.dump(index, open('index.json', 'w'))
     generateHTML(index, 'en', 'en')
