@@ -27,11 +27,11 @@
 				{% for schememgr in index %}
 				{% for issuerId, issuer in schememgr.issuers.items() | sort %}
 				<li class="nav-item">
-					<a class="nav-link {{ issuer.path | active(path) }}" href="{{ issuer.path }}.html" data-toggle="tooltip" data-placement="right">{{ issuer.shortName[LANG] }}</a>
+					<a class="nav-link {{ issuer.path | active(path) }}" href="{{ issuer.path }}.html" title="{{ issuer.name[LANG] }}" data-toggle="tooltip" data-placement="right">{{ issuer.shortName[LANG] }}</a>
 					<ul class="nav nav-pills flex-column">
 						{% for credentialId, credential in issuer.credentials.items() | sort %}
 						<li class="nav-item">
-							<a class="nav-link {{ credential.path | active(path) }}" href="{{ credential.path }}.html" data-toggle="tooltip" data-placement="right">{{ credential.shortName[LANG] }}</a>
+							<a class="nav-link {{ credential.path | active(path) }}" title="{{ credential.name[LANG] }}" href="{{ credential.path }}.html" data-toggle="tooltip" data-placement="right">{{ credential.shortName[LANG] }}</a>
 						</li>
 						{% endfor %}
 					</ul>
