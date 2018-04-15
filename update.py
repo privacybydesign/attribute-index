@@ -109,6 +109,7 @@ def readSchemeManager(path):
         'issuers':           {},
     }
     schememgr['identifier'] = schememgr['id'] # for consistency
+    schememgr['test'] = bool(os.path.exists(path + '/sk.pem'))
 
     keyshareServerElements = xml.getElementsByTagName('KeyshareServer')
     if keyshareServerElements:

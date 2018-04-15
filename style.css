@@ -54,6 +54,10 @@ body.show-nav .toggle-nav {
 	font-family: monospace;
 }
 
+.alert.warning-test {
+	clear: right;
+}
+
 .attribute.name {
 	margin-top: 1.5rem;
 	font-size: 1.3rem;
