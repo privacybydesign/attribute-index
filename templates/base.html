@@ -28,6 +28,9 @@
 				<li class="nav-item">
 					<a class="nav-link {{ "" | active(identifier) }}" href=".">About</a>
 				</li>
+				<li class="nav-item">
+					<a class="nav-link {{ "glossary" | active(identifier) }}" href="glossary.html">Glossary</a>
+				</li>
 				{% for schememgr in index %}
 				{% for issuerId, issuer in schememgr.issuers.items() | sort %}
 				<li class="nav-item">

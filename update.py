@@ -116,10 +116,16 @@ def readSchemeManager(path):
 
 def generateHTML(index, out, lang):
     os.makedirs(out, exist_ok=True)
+
     render(out + '/index.html', 'about.html',
            index=index,
            LANG=lang,
            identifier='')
+
+    render(out + '/glossary.html', 'glossary.html',
+           index=index,
+           LANG=lang,
+           identifier='glossary')
 
     for schememgr in index:
         for issuerId, issuer in sorted(schememgr['issuers'].items()):

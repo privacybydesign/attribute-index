@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Glossary{% endblock title %}
+
+{% block main %}
+	<h2>Glossary</h2>
+	<dl>
+		<dt id="attribute">Attribute</dt>
+		<dd>
+			<p>An attribute is the smallest unit in the IRMA system. It is a small piece of information like a telephone number or birth date that can be independently <a href="#disclosure">disclosed</a>.</p>
+		</dd>
+		<dt id="credential">Credential</dt>
+		<dd>
+			<p>A credential is a bundle of attributes with a fixed structure and a cryptographic signature to verify its authenticity. During <a href="#disclosure">disclosure</a>, the whole credential is disclosed but non-disclosed attributes are cryptographically blacked out without invalidating the signature. This is the main benefit of the IRMA system. The structure of credentials is described in a <a href="#scheme-manager">scheme manager</a>.</p>
+			<p>You could compare a credential to a class in <a href="https://en.wikipedia.org/wiki/Object-oriented_programming">object oriented programming</a> or to a struct in <a href="https://en.wikipedia.org/wiki/C_(programming_language)">C</a>. Its member variables would then be the credential's <a href="#attribute">attributes</a>.</p>
+		</dd>
+		<dt>Issuer</dt>
+		<dd>
+			<p>An issuer is an organization that gives out <a href="#credential">credentials</a> (containing <a href="#attribute">attributes</a>) after some form of verification. The Privacy by Design Foundation issues a few basic credentials but it is expected other organizations will issue their own credentials soon.</p>
+		</dd>
+		<dt id="scheme-manager">Scheme manager</dt>
+		<dd>
+			<p>A scheme manager describes all credentials and the attributes it contains. All documentation in this attribute index is extracted from scheme managers. An example of a (raw) scheme manager is the <a href="https://github.com/privacybydesign/pbdf-schememanager">Privacy by Design Foundation scheme manager</a>.</p>
+		</dd>
+		<dt id="disclosure">Disclosure process</dt>
+			<p>You can read more about the disclosure process in the <a href="https://credentials.github.io/protocols/irma-protocol/">protocol description</a>.</p>
+		<dt id="identifier">Identifier<dt>
+		<dd>
+		<p>An identifier uniquely identifies an attribute type, credential type, issuer, or scheme manager. Examples are <code>pbdf.pbdf.ageLimits.over18</code> which is the <a href="pbdf.pbdf.ageLimits.html#pbdf.pbdf.ageLimits.over18">Over 18</a> attribute, <code>pbdf.pbdf.big</code> which is the <a href="pbdf.pbdf.big.html">BIG registration</a> credential, or <code>pbdf.pbdf</code> which is the <a href="pbdf.pbdf.html">Privacy by Design Foundation</a> scheme manager.</p>
+		</dd>
+	</dl>
+{% endblock main %}
