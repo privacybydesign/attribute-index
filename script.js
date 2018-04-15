@@ -27,7 +27,7 @@ function searchChange(e) {
 
 function doSearch(searchresults, string) {
   // This is a very simple search algorithm, but should get the job done.
-  // It searches in the attribute path and name.
+  // It searches in the attribute identifier and name.
   var seen = {}; // set of paths that have been seen
   var count = 0;
   for (var schememgr of index) {
@@ -40,14 +40,14 @@ function doSearch(searchresults, string) {
       for (var j=0; j<credentialKeys.length; j++) {
         var credential = issuer.credentials[credentialKeys[j]];
         for (var attribute of credential.attributes) {
-          if (attribute.path.toLowerCase().indexOf(string) >= 0 || attribute.name[LANG].toLowerCase().indexOf(string) >= 0) {
-            seen[attribute.path] = null; // insert into set
+          if (attribute.identifier.toLowerCase().indexOf(string) >= 0 || attribute.name[LANG].toLowerCase().indexOf(string) >= 0) {
+            seen[attribute.identifier] = null; // insert into set
             count++;
             var el = document.querySelector('#templates > .searchresult').cloneNode(true);
-            el.setAttribute('href', credential.path + '.html#' + attribute.id);
+            el.setAttribute('href', credential.identifier + '.html#' + attribute.identifier);
             el.querySelector('.credential').textContent = credential.name[LANG];
             el.querySelector('.attribute').textContent = attribute.name[LANG];
-            el.querySelector('.path').textContent = attribute.path;
+            el.querySelector('.identifier').textContent = attribute.identifier;
             searchresults.appendChild(el);
 
             if (count >= MAX_SEARCH) {
