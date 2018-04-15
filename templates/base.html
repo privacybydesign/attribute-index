@@ -32,18 +32,23 @@
 					<a class="nav-link {{ "glossary" | active(identifier) }}" href="glossary.html">Glossary</a>
 				</li>
 				{% for schememgr in index %}
-				{% for issuerId, issuer in schememgr.issuers.items() | sort %}
 				<li class="nav-item">
-					<a class="nav-link {{ issuer.identifier | active(identifier) }}" href="{{ issuer.identifier }}.html" title="{{ issuer.name[LANG] }}" data-toggle="tooltip" data-placement="right">{{ issuer.shortName[LANG] }}</a>
+					<a class="nav-link {{ schememgr.identifier | active(identifier) }}" href="{{ schememgr.identifier }}.html">{{ schememgr.name[LANG] }}</a>
 					<ul class="nav nav-pills flex-column">
-						{% for credentialId, credential in issuer.credentials.items() | sort %}
+						{% for issuerId, issuer in schememgr.issuers.items() | sort %}
 						<li class="nav-item">
-							<a class="nav-link {{ credential.identifier | active(identifier) }}" title="{{ credential.name[LANG] }}" href="{{ credential.identifier }}.html" data-toggle="tooltip" data-placement="right">{{ credential.shortName[LANG] }}</a>
+							<a class="nav-link {{ issuer.identifier | active(identifier) }}" href="{{ issuer.identifier }}.html" title="{{ issuer.name[LANG] }}" data-toggle="tooltip" data-placement="right">{{ issuer.shortName[LANG] }}</a>
+							<ul class="nav nav-pills flex-column">
+								{% for credentialId, credential in issuer.credentials.items() | sort %}
+								<li class="nav-item">
+									<a class="nav-link {{ credential.identifier | active(identifier) }}" title="{{ credential.name[LANG] }}" href="{{ credential.identifier }}.html" data-toggle="tooltip" data-placement="right">{{ credential.shortName[LANG] }}</a>
+								</li>
+								{% endfor %}
+							</ul>
 						</li>
 						{% endfor %}
 					</ul>
 				</li>
-				{% endfor %}
 				{% endfor %}
 			</ul>
 			<div id="main">

@@ -94,10 +94,10 @@ def readIssuer(path):
     return issuer
 
 def readSchemeManager(path):
-    index = {}
+    schememgr = {}
 
     xml = minidom.parse(path + '/description.xml')
-    index = {
+    schememgr = {
         'id':          getText(xml.getElementsByTagName('Id')[0]),
         'name':        translated(xml.getElementsByTagName('Name')[0]),
         'description': translated(xml.getElementsByTagName('Description')[0]),
@@ -105,13 +105,14 @@ def readSchemeManager(path):
         'contact':     getText(xml.getElementsByTagName('Contact')[0]),
         'issuers':     {},
     }
+    schememgr['identifier'] = schememgr['id'] # for consistency
 
     for fn in sorted(os.listdir(path)):
         issuerPath = path + '/' + fn
         if os.path.exists(issuerPath + '/description.xml'):
-            index['issuers'][fn] = readIssuer(issuerPath)
+            schememgr['issuers'][fn] = readIssuer(issuerPath)
 
-    return index
+    return schememgr
 
 
 def generateHTML(index, out, lang):
@@ -128,6 +129,11 @@ def generateHTML(index, out, lang):
            identifier='glossary')
 
     for schememgr in index:
+        render(out + '/' + schememgr['identifier'] + '.html', 'schememgr.html',
+               index=index,
+               schememgr=schememgr,
+               LANG=lang,
+               identifier=schememgr['identifier'])
         for issuerId, issuer in sorted(schememgr['issuers'].items()):
             render(out + '/' + issuer['identifier'] + '.html', 'issuer.html',
                    index=index,

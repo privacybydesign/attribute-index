@@ -42,6 +42,10 @@ body.show-nav .toggle-nav {
 	padding-left: 2rem;
 }
 
+.nav-item .nav-item .nav-item .nav-link {
+	padding-left: 4rem;
+}
+
 .identifier {
 	font-family: monospace;
 }
