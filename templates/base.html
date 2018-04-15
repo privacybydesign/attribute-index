@@ -26,16 +26,16 @@
 					<div id="searchresults" class="dropdown-menu"></div>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link {{ "" | active(path) }}" href=".">About</a>
+					<a class="nav-link {{ "" | active(identifier) }}" href=".">About</a>
 				</li>
 				{% for schememgr in index %}
 				{% for issuerId, issuer in schememgr.issuers.items() | sort %}
 				<li class="nav-item">
-					<a class="nav-link {{ issuer.path | active(path) }}" href="{{ issuer.path }}.html" title="{{ issuer.name[LANG] }}" data-toggle="tooltip" data-placement="right">{{ issuer.shortName[LANG] }}</a>
+					<a class="nav-link {{ issuer.identifier | active(identifier) }}" href="{{ issuer.identifier }}.html" title="{{ issuer.name[LANG] }}" data-toggle="tooltip" data-placement="right">{{ issuer.shortName[LANG] }}</a>
 					<ul class="nav nav-pills flex-column">
 						{% for credentialId, credential in issuer.credentials.items() | sort %}
 						<li class="nav-item">
-							<a class="nav-link {{ credential.path | active(path) }}" title="{{ credential.name[LANG] }}" href="{{ credential.path }}.html" data-toggle="tooltip" data-placement="right">{{ credential.shortName[LANG] }}</a>
+							<a class="nav-link {{ credential.identifier | active(identifier) }}" title="{{ credential.name[LANG] }}" href="{{ credential.identifier }}.html" data-toggle="tooltip" data-placement="right">{{ credential.shortName[LANG] }}</a>
 						</li>
 						{% endfor %}
 					</ul>
@@ -50,7 +50,7 @@
 		<div id="templates">
 			<a class="searchresult dropdown-item">
 				<div><span class="credential"></span> » <span class="attribute"></span></div>
-				<div class="path"></div>
+				<div class="identifier"></div>
 			</a>
 			<div class="no-searchresult dropdown-item disabled">
 				No attributes found

@@ -12,7 +12,7 @@
 		<dd>{{ schememgr.description[LANG] }}
 			<ul>
 				{% for issuerId, issuer in schememgr.issuers.items() | sort %}
-				<li><a href="{{ issuer.path }}.html">{{ issuer.name[LANG] }}</a></li>
+				<li><a href="{{ issuer.identifier }}.html">{{ issuer.name[LANG] }}</a></li>
 				{% endfor %}
 			</ul>
 		</dd>

@@ -45,7 +45,7 @@ def readAttribute(xml, credential):
         'name':        translated(xml.getElementsByTagName('Name')[0]),
         'description': translated(xml.getElementsByTagName('Description')[0]),
     }
-    attribute['path'] = '%s.%s' % (credential['path'], attribute['id'])
+    attribute['identifier'] = '%s.%s' % (credential['identifier'], attribute['id'])
     return attribute
 
 def readCredential(path):
@@ -61,7 +61,7 @@ def readCredential(path):
         'shouldBeSingleton': False, # default?
         'attributes':        [],
     }
-    credential['path'] = '%s.%s.%s' % (credential['schememgr'], credential['issuer'], credential['id'])
+    credential['identifier'] = '%s.%s.%s' % (credential['schememgr'], credential['issuer'], credential['id'])
 
     singletonElements = xml.getElementsByTagName('ShouldBeSingleton')
     if singletonElements:
@@ -86,7 +86,7 @@ def readIssuer(path):
         'logo':         path + '/logo.png',
         'credentials':  {},
     }
-    issuer['path'] = '%s.%s' % (issuer['schememgr'], issuer['id'])
+    issuer['identifier'] = '%s.%s' % (issuer['schememgr'], issuer['id'])
 
     for fn in sorted(os.listdir(path + '/Issues')):
         issuer['credentials'][fn] = readCredential(path + '/Issues/' + fn)
@@ -119,24 +119,24 @@ def generateHTML(index, out, lang):
     render(out + '/index.html', 'about.html',
            index=index,
            LANG=lang,
-           path='')
+           identifier='')
 
     for schememgr in index:
         for issuerId, issuer in sorted(schememgr['issuers'].items()):
-            render(out + '/' + issuer['path'] + '.html', 'issuer.html',
+            render(out + '/' + issuer['identifier'] + '.html', 'issuer.html',
                    index=index,
                    schememgr=schememgr,
                    issuer=issuer,
                    LANG=lang,
-                   path=issuer['path'])
+                   identifier=issuer['identifier'])
             for credentialId, credential in sorted(issuer['credentials'].items()):
-                render(out + '/' + credential['path'] + '.html', 'credential.html',
+                render(out + '/' + credential['identifier'] + '.html', 'credential.html',
                        index=index,
                        schememgr=schememgr,
                        issuer=issuer,
                        credential=credential,
                        LANG=lang,
-                       path=credential['path'])
+                       identifier=credential['identifier'])
 
 
 if __name__ == '__main__':
