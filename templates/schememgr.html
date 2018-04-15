@@ -4,18 +4,46 @@
 
 {% block main %}
 	<h2>{{ schememgr.name[LANG] }}</h2>
-	<p class="identifier">{{ schememgr.identifier }}</p>
-	<p>{{ schememgr.description[LANG] }}</p>
+	<p class="subtitle">Scheme manager</p>
 	<dl>
+		<dt>Scheme manager <a href="glossary.html#identifier">identifier</a>
+		<dd class="identifier">{{ schememgr.identifier }}</dd>
+
+		<dt>Description</dt>
+		<dd>{{ schememgr.description[LANG] }}</dd>
+
 		<dt>Contact</dt>
 		<dd><a href="{{ schememgr.contact }}">{{ schememgr.contact }}</a></dd>
+
 		<dt>URL</dt>
 		<dd class="url">{{ schememgr.url }}</dd>
+
+		<dt>Keyshare server</dt>
+		{% if schememgr.keyshareServer %}
+		<dd>{{ schememgr.keyshareServer }}</dd>
+		{% else %}
+		<dd>(none)</dd>
+		{% endif %}
+
+		<dt>Keyshare website</dt>
+		{% if schememgr.keyshareWebsite %}
+		<dd><a href="{{ schememgr.keyshareWebsite }}">{{ schememgr.keyshareWebsite }}</a></dd>
+		{% else %}
+		<dd>(none)</dd>
+		{% endif %}
+
+		<dt>Keyshare attribute</dt>
+		{% if schememgr.keyshareAttribute %}
+		<dd class="identifier">{{ schememgr.keyshareAttribute }}</dd>
+		{% else %}
+		<dd>(none)</dd>
+		{% endif %}
 	</dl>
 	<h3>Issuers</h3>
-	<dl>
+	<p>The following issuers are contained in this scheme manager:</p>
+	<ul>
 		{% for issuerId, issuer in schememgr.issuers.items() | sort %}
-		<dt><a href="{{ issuer.identifier }}.html">{{ issuer.name[LANG] }}</a></dt>
+		<li><a href="{{ issuer.identifier }}.html">{{ issuer.name[LANG] }}</a></li>
 		{% endfor %}
-	</dl>
+	</ul>
 {% endblock main %}

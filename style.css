@@ -43,15 +43,20 @@ body.show-nav .toggle-nav {
 }
 
 .nav-item .nav-item .nav-item .nav-link {
-	padding-left: 4rem;
+	padding-left: 3rem;
+}
+
+.subtitle {
+	font-style: italic;
 }
 
 .identifier {
 	font-family: monospace;
 }
 
-.attributes dt.name {
-	margin-top: 1rem;
+.attribute.name {
+	margin-top: 1.5rem;
+	font-size: 1.3rem;
 }
 
 #searchresults {

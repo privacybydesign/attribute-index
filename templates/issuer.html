@@ -5,14 +5,17 @@
 {% block main %}
 	<h2>{{ issuer.name[LANG] }}</h2>
 	<img class="float-right" width="100" src="{{ assets }}/{{ issuer.logo }}"/>
-	<p class="identifier">{{ issuer.identifier }}</p>
+	<p class="subtitle">Issuer</p>
 	<dl>
+		<dt>Issuer <a href="glossary.html#identifier">identifier</a>
+		<dd class="identifier">{{ issuer.identifier }}</dd>
 		<dt>Short name</dt>
 		<dd>{{ issuer.shortName[LANG] }}</dd>
 		<dt>Contact</dt>
 		<dd><a href="mailto:{{ issuer.contactEmail }}">{{ issuer.contactEmail }}</a></dd>
 	</dl>
 	<h3>Credentials</h3>
+	<p>The following credentials can be issued by this issuer:</p>
 	<dl>
 		{% for credentialId, credential in issuer.credentials.items() | sort %}
 		<dt><a href="{{ credential.identifier }}.html">{{ credential.name[LANG] }}</a></dt>
