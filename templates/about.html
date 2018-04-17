@@ -9,7 +9,9 @@
 	<dl class="schememanagers">
 		{% for schememgr in index %}
 		<dt><a href="{{ schememgr.id }}.html">{{ schememgr.name[LANG] }}</a></dt>
-		<dd>{{ schememgr.description[LANG] }}
+		<dd>
+			<p>{{ schememgr.description[LANG] }}</p>
+			<p>The following issuers are contained in this scheme manager:</p>
 			<ul>
 				{% for issuerId, issuer in schememgr.issuers.items() | sort %}
 				<li><a href="{{ issuer.identifier }}.html">{{ issuer.name[LANG] }}</a></li>
