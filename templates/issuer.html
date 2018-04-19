@@ -3,8 +3,8 @@
 {% block title %}{{ issuer.identifier }}{% endblock title %}
 
 {% block main %}
-	<h2>{{ issuer.name[LANG] }}</h2>
 	<img class="float-right" width="100" src="{{ assets }}/{{ issuer.logo }}"/>
+	<h2>{{ issuer.name[LANG] }}</h2>
 	<p class="subtitle">Issuer</p>
 	{% if schememgr.test %}
 	<div class="alert alert-warning warning-test"><strong>This is a testing issuer.</strong> The secret key is public, so anyone can issue credentials with this issuer. Use it for testing and demo purposes only.</div>
