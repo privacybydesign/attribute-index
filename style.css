@@ -29,12 +29,12 @@ body.show-nav .toggle-nav {
 	}
 
 	#tree {
-		max-width: calc(12rem - 15px);
+		max-width: calc(14rem - 50px);
 		float: left;
 	}
 
 	#main {
-		margin-left: 12rem;
+		margin-left: 14rem;
 	}
 }
 
