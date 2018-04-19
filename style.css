@@ -73,3 +73,7 @@ body.show-nav .toggle-nav {
 #templates {
 	display: none;
 }
+
+h1 {
+	margin: 1rem 0;
+}
