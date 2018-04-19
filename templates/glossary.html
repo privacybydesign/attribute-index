@@ -11,8 +11,8 @@
 		</dd>
 		<dt id="credential">Credential</dt>
 		<dd>
-			<p>A credential is a bundle of attributes with a fixed structure and a cryptographic signature to verify its authenticity. During <a href="#disclosure">disclosure</a>, the whole credential is disclosed but non-disclosed attributes are cryptographically blacked out without invalidating the signature. This is the main benefit of the IRMA system. The structure of credentials is described in a <a href="#scheme-manager">scheme manager</a>.</p>
-			<p>You could compare a credential to a class in <a href="https://en.wikipedia.org/wiki/Object-oriented_programming">object oriented programming</a> or to a struct in <a href="https://en.wikipedia.org/wiki/C_(programming_language)">C</a>. Its member variables would then be the credential's <a href="#attribute">attributes</a>.</p>
+			<p>A credential is a bundle of attributes with a fixed structure and a cryptographic signature to verify its authenticity. During <a href="#disclosure">disclosure</a>, the whole credential is disclosed but non-disclosed attributes are cryptographically blacked out without invalidating the signature. This is one of the key benefits of the IRMA system. The structure of credentials is described in a <a href="#scheme-manager">scheme manager</a>.</p>
+			<p>You could compare a credential to a class instance in <a href="https://en.wikipedia.org/wiki/Object-oriented_programming">object oriented programming</a> or to a struct instance in <a href="https://en.wikipedia.org/wiki/C_(programming_language)">C</a>. Its member variables would then be the credential's <a href="#attribute">attributes</a>. The structure of the credential described in the scheme manager would then be the class or struct definition.</p>
 		</dd>
 		<dt>Issuer</dt>
 		<dd>
@@ -20,7 +20,7 @@
 		</dd>
 		<dt id="scheme-manager">Scheme manager</dt>
 		<dd>
-			<p>A scheme manager describes all credentials and the attributes it contains. All documentation in this attribute index is extracted from scheme managers. An example of a (raw) scheme manager is the <a href="https://github.com/privacybydesign/pbdf-schememanager">Privacy by Design Foundation scheme manager</a>.</p>
+			<p>A scheme manager describes all issuers, all credentials, as well as attributes it contains. (Additionally, it contains the IRMA public keys of the issuers against which their attributes can be verified.) All documentation in this attribute index is extracted from scheme managers. An example of a (raw) scheme manager is the <a href="https://github.com/privacybydesign/pbdf-schememanager">Privacy by Design Foundation scheme manager</a>.</p>
 		</dd>
 		<dt id="disclosure">Disclosure process</dt>
 			<p>You can read more about the disclosure process in the <a href="https://credentials.github.io/protocols/irma-protocol/">protocol description</a>.</p>
@@ -29,4 +29,5 @@
 		<p>An identifier uniquely identifies an attribute type, credential type, issuer, or scheme manager. Examples are <code>pbdf.pbdf.ageLimits.over18</code> which is the <a href="pbdf.pbdf.ageLimits.html#pbdf.pbdf.ageLimits.over18">Over 18</a> attribute, <code>pbdf.pbdf.big</code> which is the <a href="pbdf.pbdf.big.html">BIG registration</a> credential, or <code>pbdf.pbdf</code> which is the <a href="pbdf.pbdf.html">Privacy by Design Foundation</a> scheme manager.</p>
 		</dd>
 	</dl>
+	<p>For a more comprehensive introduction of these entities and their role in the IRMA infrastructure, see the <a href="https://credentials.github.io/docs/irma.html">technical documentation</a>.</p>
 {% endblock main %}
