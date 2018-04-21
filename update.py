@@ -93,7 +93,7 @@ def readIssuer(path):
 
     return issuer
 
-def readSchemeManager(path):
+def readSchemeManager(path, githubURL):
     schememgr = {}
 
     xml = minidom.parse(path + '/description.xml')
@@ -102,6 +102,7 @@ def readSchemeManager(path):
         'name':              translated(xml.getElementsByTagName('Name')[0]),
         'description':       translated(xml.getElementsByTagName('Description')[0]),
         'url':               getText(xml.getElementsByTagName('Url')[0]),
+        'github':            githubURL,
         'contact':           getText(xml.getElementsByTagName('Contact')[0]),
         'keyshareServer':    None,
         'keyshareWebsite':   None,
@@ -168,9 +169,16 @@ def generateHTML(index, out, lang):
 
 
 if __name__ == '__main__':
-    schememanagers = ['pbdf-schememanager', 'irma-demo-schememanager']
+    # TODO: put this in a config file?
+    schememanagers = [{
+        'source': 'pbdf-schememanager',
+        'github': 'https://github.com/privacybydesign/pbdf-schememanager/blob/master'
+    }, {
+        'source': 'irma-demo-schememanager',
+        'github': 'https://github.com/privacybydesign/irma-demo-schememanager/blob/master',
+    }]
     index = []
-    for path in schememanagers:
-        index.append(readSchemeManager(path))
+    for info in schememanagers:
+        index.append(readSchemeManager(info['source'], info['github']))
     json.dump(index, open('index.json', 'w'))
     generateHTML(index, 'en', 'en')
