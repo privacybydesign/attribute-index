@@ -58,7 +58,7 @@ def readCredential(path):
         'shortName':         translated(xml.getElementsByTagName('ShortName')[0]),
         'description':       translated(xml.getElementsByTagName('Description')[0]),
         'logo':              path + '/logo.png',
-        'shouldBeSingleton': False, # default?
+        'shouldBeSingleton': False,
         'attributes':        [],
     }
     credential['identifier'] = '%s.%s.%s' % (credential['schememgr'], credential['issuer'], credential['id'])
@@ -66,7 +66,7 @@ def readCredential(path):
     singletonElements = xml.getElementsByTagName('ShouldBeSingleton')
     if singletonElements:
         # Not all credential descriptions have a ShouldBeSingleton element.
-        credential['shouldBeSingleton'] = BOOL[getText(singletonElements[0])],
+        credential['shouldBeSingleton'] = BOOL[getText(singletonElements[0])]
 
     for attribute in xml.getElementsByTagName('Attributes')[0].childNodes:
         if attribute.nodeType != attribute.ELEMENT_NODE:
