@@ -181,4 +181,6 @@ if __name__ == '__main__':
     for info in schememanagers:
         index.append(readSchemeManager(info['source'], info['github']))
     json.dump(index, open('index.json', 'w'))
+    
     generateHTML(index, 'en', 'en')
+    generateHTML(index, 'nl', 'nl')
