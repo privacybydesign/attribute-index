@@ -6,7 +6,7 @@
 	<h2>{{ schememgr.name[LANG] }}</h2>
 	<p class="subtitle">Scheme manager</p>
 	{% if schememgr.test %}
-	<div class="alert alert-warning warning-test"><strong>This is a testing scheme manager.</strong> The secret key is public, so anyone can issue credentials from this scheme manager. Use it for testing and demo purposes only.</div>
+	<div class="alert alert-warning warning-test"><strong>This is a testing scheme manager.</strong> Its private key is public, so anyone can modify it and issue credentials from this scheme manager. Use it for testing and demo purposes only.</div>
 	{% endif %}
 	<dl>
 		<dt>Scheme manager <a href="glossary.html#identifier">identifier</a>
