@@ -4,12 +4,12 @@
 
 {% block main %}
 	<h2>{{ schememgr.name[LANG] }}</h2>
-	<p class="subtitle">Scheme manager</p>
+	<p class="subtitle">Scheme</p>
 	{% if schememgr.test %}
-	<div class="alert alert-warning warning-test"><strong>This is a testing scheme manager.</strong> Its private key is public, so anyone can modify it and issue credentials from this scheme manager. Use it for testing and demo purposes only.</div>
+	<div class="alert alert-warning warning-test"><strong>This is a testing scheme.</strong> Its private key is public, so anyone can modify it and issue credentials from this scheme. Use it for testing and demo purposes only.</div>
 	{% endif %}
 	<dl>
-		<dt>Scheme manager <a href="glossary.html#identifier">identifier</a>
+		<dt>Scheme <a href="glossary.html#identifier">identifier</a>
 		<dd class="identifier">{{ schememgr.identifier }}</dd>
 
 		<dt>Description</dt>
@@ -51,7 +51,7 @@
 		</dd>
 	</dl>
 	<h3>Issuers</h3>
-	<p>The following issuers are contained in this scheme manager:</p>
+	<p>The following issuers are contained in this scheme:</p>
 	<ul>
 		{% for issuerId, issuer in schememgr.issuers.items() | sort %}
 		<li><a href="{{ issuer.identifier }}.html">{{ issuer.name[LANG] }}</a></li>
