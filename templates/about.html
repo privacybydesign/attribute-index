@@ -4,14 +4,14 @@
 
 {% block main %}
 	<h2>About</h2>
-	<p>Here you will find an overview of all credentials currently issued by or known to the Privacy by Design Foundation. This overview is generated from the XML files of the <a href="glossary.html#scheme-manager">scheme managers</a> listed below. For more information, see the <a href="glossary.html">glossary</a>.</p>
-	<h3>Scheme managers</h3>
+	<p>Here you will find an overview of all credentials currently issued by or known to the Privacy by Design Foundation. This overview is generated from the XML files of the <a href="glossary.html#scheme-manager">schemes</a> listed below. For more information, see the <a href="glossary.html">glossary</a>.</p>
+	<h3>Schemes</h3>
 	<dl class="schememanagers">
 		{% for schememgr in index %}
 		<dt><a href="{{ schememgr.id }}.html">{{ schememgr.name[LANG] }}</a></dt>
 		<dd>
 			<p>{{ schememgr.description[LANG] }}</p>
-			<p>The following issuers are contained in this scheme manager:</p>
+			<p>The following issuers are contained in this scheme:</p>
 			<ul>
 				{% for issuerId, issuer in schememgr.issuers.items() | sort %}
 				<li><a href="{{ issuer.identifier }}.html">{{ issuer.name[LANG] }}</a></li>

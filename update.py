@@ -13,6 +13,8 @@ BOOL = {
 def filter_active(highlightpath, currentpath):
     if highlightpath == currentpath:
         return 'active'
+    else:
+        return ''
 
 def render(out, template_name, **kwargs):
     env = jinja2.Environment(

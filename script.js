@@ -2,6 +2,10 @@
 
 const LANG = 'en'; // TODO
 const MAX_SEARCH = 8; // max number of search results in the results dropdown
+const IRMA_SERVER = 'https://metrics.privacybydesign.foundation/irmaserver'
+const IRMA_AUTHMETHOD = 'none';
+const IRMA_KEY = '';
+const IRMA_REQUESTORNAME = '';
 
 var index;
 
@@ -62,6 +66,46 @@ function doSearch(searchresults, string) {
   return count;
 }
 
+// Manually issue a test credential.
+function issue(e) {
+  e.preventDefault();
+  var form = e.target;
+
+  // Load the credential ID from the form.
+  var credentialID = form.dataset.credential;
+
+  // Load the attributes from the form.
+  var attributes = {};
+  var inputs = form.querySelectorAll('input');
+  for (var i=0; i<inputs.length; i++) {
+    var input = inputs[i];
+    attributes[input.dataset.attribute] = input.value;
+  }
+
+  // Build the request.
+  var request = {
+    type: 'issuing',
+    credentials: [
+      {
+        credential: credentialID,
+        attributes: attributes,
+      },
+    ]
+  };
+
+  // Issue, by showing a popup.
+  console.log('issuing test attributes:', request);
+  irma.startSession(IRMA_SERVER, request, IRMA_AUTHMETHOD, IRMA_KEY, IRMA_REQUESTORNAME)
+    .then(function(pkg) {
+      return irma.handleSession(pkg.sessionPtr, {server: IRMA_SERVER, token: pkg.token, method: 'popup', language: LANG});
+    }).then(function(result) {
+      console.log('test attributes issued:', result);
+      return result;
+    }).catch(function(err) {
+      console.error('failed to issue test attributes:', err);
+    });
+}
+
 function init() {
   document.querySelector('.toggle-nav').onclick = function(e) {
     e.preventDefault();
@@ -69,6 +113,11 @@ function init() {
   };
 
   document.querySelector('input[type=search]').oninput = searchChange;
+
+  var forms = document.querySelectorAll('form.diy-credential');
+  for (var i=0; i<forms.length; i++) {
+    forms[i].onsubmit = issue;
+  }
 
   var req = new XMLHttpRequest();
   req.open('GET', INDEX_URL);
