@@ -23,7 +23,7 @@ def render(out, template_name, **kwargs):
     env.filters['active'] = filter_active
     template = env.get_template(template_name)
     html = template.render(base='.', assets='..', **kwargs)
-    open(out, 'w').write(html)
+    open(out, 'w', encoding='utf-8').write(html)
 
 
 def getText(element):
