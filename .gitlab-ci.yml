@@ -1,0 +1,18 @@
+image: privacybydesign/python3:latest
+
+stages:
+  - build
+
+before_script:
+  - set -euxo pipefail
+  - git clone https://github.com/privacybydesign/pbdf-schememanager.git
+  - git clone https://github.com/privacybydesign/irma-demo-schememanager.git
+
+build:
+  stage: build
+  artifacts:
+    paths:
+      - nl/
+      - en/
+  script:
+    - python3 update.py
