@@ -14,5 +14,8 @@ build:
     paths:
       - nl/
       - en/
+      - script.js
+      - style.css
+      - index.json
   script:
     - python3 update.py
