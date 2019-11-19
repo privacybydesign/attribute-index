@@ -14,6 +14,8 @@ build:
     paths:
       - nl/
       - en/
+      - pbdf-schememanager/
+      - irma-demo-schememanager/
       - script.js
       - style.css
       - index.json
