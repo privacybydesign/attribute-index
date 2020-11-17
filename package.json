@@ -1,0 +1,19 @@
+{
+  "name": "attribute-index",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "scripts": {
+    "develop": "webpack --mode development --watch",
+    "build": "webpack --mode production"
+  },
+  "repository": "https://github.com/privacybydesign/attribute-index",
+  "license": "BSD-3",
+  "private": false,
+  "dependencies": {
+    "@privacybydesign/irma-frontend": "^0.1.5"
+  },
+  "devDependencies": {
+    "webpack": "^5.4.0",
+    "webpack-cli": "^4.2.0"
+  }
+}
