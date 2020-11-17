@@ -10,6 +10,7 @@ Dependencies:
   * git (to clone the scheme managers)
   * Python 3
   * [Jinja2](http://jinja.pocoo.org/) (Debian package: `python3-jinja2`)
+  * yarn
 
 Before content can be generated, the scheme managers need to be downloaded:
 
@@ -26,6 +27,11 @@ To generate the HTML for the attribute index, run the script:
 
 If you want to have an up-to-date attribute index, it is recommended to update
 the scheme managers regularly and run the update script afterwards.
+
+To generate the JavaScript handling issuance sessions of demo credentials, run:
+
+    yarn
+    yarn run build
 
 ## Using untrusted scheme managers
 
