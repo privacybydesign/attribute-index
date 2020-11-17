@@ -94,7 +94,6 @@ function issue(e) {
   console.log('issuing test attributes:', request);
 
   irma.newPopup({
-    debugging: true,
     session: {
       url: IRMA_SERVER,
       start: {
@@ -105,8 +104,8 @@ function issue(e) {
     },
   })
   .start()
-  .then(result => console.log("Issuance successful", result))
-  .catch(error => console.error("Issuance failed", error));
+  .then(() => console.log("Issuance successful"))
+  .catch(error => console.error("Issuance failed: ", error));
 }
 
 function init() {
