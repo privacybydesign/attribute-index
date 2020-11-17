@@ -1,4 +1,4 @@
-image: privacybydesign/python3:latest
+image: privacybydesign/node_yarn_python3:latest
 
 stages:
   - build
@@ -7,6 +7,7 @@ before_script:
   - set -euxo pipefail
   - git clone https://github.com/privacybydesign/pbdf-schememanager.git
   - git clone https://github.com/privacybydesign/irma-demo-schememanager.git
+  - yarn install --frozen-lockfile
 
 build:
   stage: build
@@ -22,4 +23,5 @@ build:
       - style.css
       - index.json
   script:
+    - yarn run build
     - python3 update.py
