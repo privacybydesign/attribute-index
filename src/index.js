@@ -1,11 +1,10 @@
 'use strict';
 
+const irma = require('@privacybydesign/irma-frontend');
+
 const LANG = 'en'; // TODO
 const MAX_SEARCH = 8; // max number of search results in the results dropdown
 const IRMA_SERVER = 'https://demo.privacybydesign.foundation/backend';
-const IRMA_AUTHMETHOD = 'none';
-const IRMA_KEY = '';
-const IRMA_REQUESTORNAME = '';
 
 var index;
 
@@ -82,28 +81,32 @@ function issue(e) {
     attributes[input.dataset.attribute] = input.value;
   }
 
-  // Build the request.
-  var request = {
-    type: 'issuing',
-    credentials: [
+  // Issue, by showing a popup.
+  const request = {
+    '@context': 'https://irma.app/ld/request/issuance/v2',
+    'credentials': [
       {
-        credential: credentialID,
-        attributes: attributes,
+        'credential': credentialID,
+        'attributes': attributes,
       },
     ]
   };
-
-  // Issue, by showing a popup.
   console.log('issuing test attributes:', request);
-  irma.startSession(IRMA_SERVER, request, IRMA_AUTHMETHOD, IRMA_KEY, IRMA_REQUESTORNAME)
-    .then(function(pkg) {
-      return irma.handleSession(pkg.sessionPtr, {server: IRMA_SERVER, token: pkg.token, method: 'popup', language: LANG});
-    }).then(function(result) {
-      console.log('test attributes issued:', result);
-      return result;
-    }).catch(function(err) {
-      console.error('failed to issue test attributes:', err);
-    });
+
+  irma.newPopup({
+    debugging: true,
+    session: {
+      url: IRMA_SERVER,
+      start: {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(request),
+      }
+    },
+  })
+  .start()
+  .then(result => console.log("Issuance successful", result))
+  .catch(error => console.error("Issuance failed", error));
 }
 
 function init() {
