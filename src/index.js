@@ -91,6 +91,10 @@ function issue(e) {
       },
     ]
   };
+
+  var credtype = findCredType(credentialID);
+  if (credtype && credtype.revocation)
+    request.credentials[0].revocationKey = revocationKey();
   console.log('issuing test attributes:', request);
 
   irma.newPopup({
@@ -104,8 +108,33 @@ function issue(e) {
     },
   })
   .start()
-  .then(() => console.log("Issuance successful"))
+  .then(() => {
+    console.log("Issuance successful");
+    if (!credtype.revocation) return;
+    document.getElementById("issue-alert").style.display = "";
+    document.getElementById("revocation-key").innerHTML = request.credentials[0].revocationKey;
+  })
   .catch(error => console.error("Issuance failed: ", error));
+}
+
+// Construct a random string of 10 characters
+function revocationKey() {
+  return [...Array(10)].map(() => Math.random().toString(36)[2]).join('');
+}
+
+function findCredType(credentialID) {
+  var parts = credentialID.split(".");
+
+  for (var schemeid in index) {
+    var scheme = index[schemeid];
+    if (scheme.id === parts[0]) {
+      if (!scheme.issuers[parts[1]])
+        return null;
+      return scheme.issuers[parts[1]].credentials[parts[2]];
+    }
+  }
+
+  return null;
 }
 
 function init() {
