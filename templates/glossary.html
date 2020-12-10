@@ -23,15 +23,23 @@
 			<p>A scheme describes all issuers, all credentials, as well as attributes it contains. (Additionally, it contains the IRMA public keys of the issuers against which their attributes can be verified.) An example of a scheme is the <a href="https://github.com/privacybydesign/pbdf-schememanager">Privacy by Design Foundation scheme</a>.</p>
 		</dd>
 		<dt id="disclosure">Disclosure process</dt>
-			<p>You can read more about the disclosure process in the <a href="https://credentials.github.io/protocols/irma-protocol/">protocol description</a>.</p>
+			<p>You can read more about the disclosure process in the <a href="https://irma.app/docs/overview/">technical documentation</a>.</p>
 		<dt id="identifier">Identifier<dt>
 		<dd>
-			<p>An identifier uniquely identifies an attribute type, credential type, issuer, or scheme. Examples are <code>pbdf.pbdf.ageLimits.over18</code> which is the <a href="pbdf.pbdf.ageLimits.html#pbdf.pbdf.ageLimits.over18">Over 18</a> attribute, <code>pbdf.pbdf.big</code> which is the <a href="pbdf.pbdf.big.html">BIG registration</a> credential, or <code>pbdf.pbdf</code> which is the <a href="pbdf.pbdf.html">Privacy by Design Foundation</a> issuer.</p>
+			<p>An identifier uniquely identifies an attribute type, credential type, issuer, or scheme. Examples are <code>pbdf.gemeente.personalData.over18</code> which is the <a href="pbdf.gemeente.personalData.html#pbdf.gemeente.personalData.over18">Over 18</a> attribute, <code>pbdf.sidn-pbdf.email</code> which is the <a href="pbdf.sidn-pbdf.email.html">email</a> credential, or <code>pbdf.pbdf</code> which is the <a href="pbdf.pbdf.html">Privacy by Design Foundation</a> issuer.</p>
+		</dd>
+		<dt id="singleton">Singleton credentials</dt>
+		<dd>
+			<p>Of some credentials, the IRMA app is allowed to possess at most one instance of it simultaneously. This is enabled for credentials for which it does not make sense for one person to have more than one instance. An example is the <a href="pbdf.gemeente.personalData.html"><code>pbdf.gemeente.personalData</code></a> credential: a person can have only one name. A non-example is the <a href="pbdf.sidn-pbdf.email.html"><code>pbdf.sidn-pbdf.email</code></a> credential: a person can have many email addresses.</p>
+		</dd>
+		<dt id="revocation">Revocation</dt>
+		<dd>
+			<p>For some credentials, the issuer may have the ability to revoke them after issuance if it finds that the credential contents are no longer correct or appropriated. For example address attributes after you moved, or driver's license attributes corresponding to a driver's license which has been revoked. For more details, see the <a href="https://irma.app/docs/revocation/">technical documentation</a> on revocation.</p>
 		</dd>
 		<dt id="xml-source">XML source</dt>
 		<dd>
 			<p>Each page of this index is an automatically generated human-readable view on an XML file within a scheme. Each page include a link to the XML file from which it was generated.</p>
 		</dd>
 	</dl>
-	<p>For a more comprehensive introduction of these entities and their role in the IRMA infrastructure, see the <a href="https://credentials.github.io/docs/irma.html">technical documentation</a>.</p>
+	<p>For a more comprehensive introduction of these entities and their role in the IRMA infrastructure, see the <a href="https://irma.app/docs">technical documentation</a>.</p>
 {% endblock main %}
