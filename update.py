@@ -48,6 +48,7 @@ def readAttribute(xml, credential):
         'id':          xml.getAttribute('id'),
         'optional':    len(xml.getAttribute('optional')) > 0,
         'revocation':  len(xml.getAttribute('revocation')) > 0,
+        'randomblind': len(xml.getAttribute('randomblind')) > 0,
         'name':        translated(name[0]) if len(name) > 0 else None,
         'description': translated(desc[0]) if len(desc) > 0 else None,
     }
