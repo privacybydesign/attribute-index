@@ -42,10 +42,14 @@ def translated(element):
     return strings
 
 def readAttribute(xml, credential):
+    name = xml.getElementsByTagName('Name')
+    desc = xml.getElementsByTagName('Description')
     attribute = {
         'id':          xml.getAttribute('id'),
-        'name':        translated(xml.getElementsByTagName('Name')[0]),
-        'description': translated(xml.getElementsByTagName('Description')[0]),
+        'optional':    len(xml.getAttribute('optional')) > 0,
+        'revocation':  len(xml.getAttribute('revocation')) > 0,
+        'name':        translated(name[0]) if len(name) > 0 else None,
+        'description': translated(desc[0]) if len(desc) > 0 else None,
     }
     attribute['identifier'] = '%s.%s' % (credential['identifier'], attribute['id'])
     return attribute
@@ -59,6 +63,7 @@ def readCredential(path):
         'name':              translated(xml.getElementsByTagName('Name')[0]),
         'shortName':         translated(xml.getElementsByTagName('ShortName')[0]),
         'description':       translated(xml.getElementsByTagName('Description')[0]),
+        'revocation':        xml.getElementsByTagName('RevocationServers').length > 0,
         'logo':              path + '/logo.png',
         'shouldBeSingleton': False,
         'attributes':        [],
@@ -73,7 +78,10 @@ def readCredential(path):
     for attribute in xml.getElementsByTagName('Attributes')[0].childNodes:
         if attribute.nodeType != attribute.ELEMENT_NODE:
             continue
-        credential['attributes'].append(readAttribute(attribute, credential))
+        credentialAttr = readAttribute(attribute, credential)
+        if credentialAttr['revocation']:
+            continue
+        credential['attributes'].append(credentialAttr)
 
     return credential
 
