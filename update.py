@@ -4,6 +4,7 @@ import json
 from xml.dom import minidom
 import os
 import jinja2 # Debian: python3-jinja2
+from datetime import datetime
 
 BOOL = {
     'true':  True,
@@ -33,6 +34,9 @@ def getText(element):
             strings.append(node.data)
     return ''.join(strings)
 
+def getTime(element):
+    return format(datetime.fromtimestamp(int(getText(element))), '%Y-%m-%d %H:%M:%S')
+
 def translated(element):
     strings = {}
     for child in element.childNodes:
@@ -57,6 +61,7 @@ def readAttribute(xml, credential):
 
 def readCredential(path):
     xml = minidom.parse(path + '/description.xml')
+    deprecated = xml.getElementsByTagName('DeprecatedSince')
     credential = {
         'schememgr':         getText(xml.getElementsByTagName('SchemeManager')[0]),
         'issuer':            getText(xml.getElementsByTagName('IssuerID')[0]),
@@ -65,6 +70,7 @@ def readCredential(path):
         'shortName':         translated(xml.getElementsByTagName('ShortName')[0]),
         'description':       translated(xml.getElementsByTagName('Description')[0]),
         'revocation':        xml.getElementsByTagName('RevocationServers').length > 0,
+        'deprecated':        getTime(deprecated[0]) if len(deprecated) > 0 else None,
         'logo':              path + '/logo.png',
         'shouldBeSingleton': False,
         'attributes':        [],
