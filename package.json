@@ -10,7 +10,7 @@
   "license": "BSD-3",
   "private": false,
   "dependencies": {
-    "@privacybydesign/irma-frontend": "^0.3.3"
+    "@privacybydesign/irma-frontend": "^0.4.3"
   },
   "devDependencies": {
     "webpack": "^5.4.0",
