@@ -13,7 +13,7 @@
     "@privacybydesign/irma-frontend": "^0.4.3"
   },
   "devDependencies": {
-    "webpack": "^5.4.0",
+    "webpack": "^5.94.0",
     "webpack-cli": "^4.2.0"
   }
 }
