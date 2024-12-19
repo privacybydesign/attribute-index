@@ -191,6 +191,9 @@ if __name__ == '__main__':
         'source': 'pbdf-schememanager',
         'github': 'https://github.com/privacybydesign/pbdf-schememanager/blob/master'
     }, {
+        'source': 'pbdf-staging',
+        'github': 'https://github.com/privacybydesign/pbdf-staging/blob/main'
+    }, {
         'source': 'irma-demo-schememanager',
         'github': 'https://github.com/privacybydesign/irma-demo-schememanager/blob/master',
     }]

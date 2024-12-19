@@ -1,23 +1,45 @@
-/* https://aykevl.nl/2014/09/fix-jumping-scrollbar */
-@media screen and (min-width: 55rem) {
-	html {
-		margin-left: calc(100vw - 100%);
-		margin-right: 0;
-	}
-}
-
+html,
 body {
-	max-width: 50rem;
-	margin: 0 auto;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	font-size: 16px;
+	line-height: 24px;
+	background-color: #F7F5F3;
+	font-family: 'Open Sans', Verdana, Arial, sans-serif;
 }
 
-/* small screen */
-body:not(.show-nav) #tree {
-	display: none;
+header {
+	background: #FFFFFF;
+	color: #484747;
+	border-bottom: 1px solid #CFE4EF
 }
 
-body.show-nav .toggle-nav {
+header h1 {
+	text-align: center;
+	padding: 16px;
+}
+
+h1 {
+	display: block;
+	margin: 0;
+	font-size: 18px;
+	line-height: 22px;
+	padding: 16px 0;
 	font-weight: bold;
+	font-family: 'Alexandria', Verdana, Arial, sans-serif;
+}
+
+.custom-button {
+    border: none;
+    color: #FFFFFF;
+    background: #E12747 url('./images/button-primary.svg') no-repeat right top;
+    padding: 8px 16px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    border-radius: 5px;
 }
 
 @media (min-width: 40rem) { /* big screen */
@@ -74,9 +96,9 @@ body.show-nav .toggle-nav {
 	display: none;
 }
 
-h1 {
+/* h1 {
 	margin: 1rem 0;
-}
+} */
 
 .items {
 	margin-left: 1.5rem;

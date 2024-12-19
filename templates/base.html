@@ -3,7 +3,7 @@
 <html lang="{{ LANG }}">
 	<head>
 		<meta charset="utf-8"/>
-		<title>{% block title %}{% endblock %} - IRMA credentials</title>
+		<title>{% block title %}{% endblock %} - Yivi credentials</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<link rel="stylesheet" href="{{ assets }}/style.css"/>
@@ -16,9 +16,11 @@
 		<script src="{{ assets }}/script.js" defer></script>
 	</head>
 	<body>
-		<div class="container-fluid">
+		<header>
+			<h1>Yivi attributes</h1>
+		</header>
+		<div class="container mt-5">
 			<a class="toggle-nav btn btn-light float-right mt-2" href onclick="return false;">☰</a>
-			<h1>IRMA attributes</h1>
 			<ul id="tree" class="nav nav-pills flex-column" role="navigation"/>
 				<li class="search dropdown mb-2">
 					<input type="search" class="form-control" placeholder="Search..."/>

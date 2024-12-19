@@ -14,8 +14,10 @@ Dependencies:
 
 Before content can be generated, the scheme managers need to be downloaded:
 
-    git clone git@github.com:privacybydesign/pbdf-schememanager.git
-    git clone git@github.com:privacybydesign/irma-demo-schememanager.git
+```bash
+git clone https://github.com/privacybydesign/pbdf-schememanager.git
+git clone https://github.com/privacybydesign/irma-demo-schememanager.git
+```
 
 Currently the paths for these are hardcoded, but that can be changed if needed.
 
@@ -23,15 +25,19 @@ Currently the paths for these are hardcoded, but that can be changed if needed.
 
 To generate the HTML for the attribute index, run the script:
 
-    python3 update.py
+```bash
+python3 update.py
+```
 
 If you want to have an up-to-date attribute index, it is recommended to update
 the scheme managers regularly and run the update script afterwards.
 
 To generate the JavaScript handling issuance sessions of demo credentials, run:
 
-    yarn
-    yarn run build
+```bash
+npm i
+npm run build
+```
 
 ## Using untrusted scheme managers
 
