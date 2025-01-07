@@ -24,7 +24,7 @@
             margin: 0;
             padding: 0;
             overflow-x: hidden;
-            font-family: opensans_regular, sans-serif;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", sans-serif, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
         }
 
         .container-fluid {
@@ -39,7 +39,13 @@
             width: 100%;
             max-width: 100vw;
             padding: 0;
+			color: #520928 !important;
+
         }
+		.nav-link{
+			color: #74334e !important;
+
+		}
 
         .navbar > .container-fluid {
             padding: 0.5rem 1rem;
@@ -56,12 +62,19 @@
 
         .nav-link.active {
             background-color: #e9ecef;
-            color: #2470dc !important;
+            color: #520928 !important;
+			font-weight: bold;
+			
         }
 
-        .nav-link.active.fw-bold {
-            background-color: #dde1e6;
-        }
+		h1,h2,h3 {
+			color: #520928;
+		}
+		
+		a {
+			color: #360c1d;
+			text-decoration: none;
+		}
 
         /* Search related styles */
         .search-container {
@@ -84,6 +97,7 @@
             color: #666;
         }
 		body.show-nav {
+			
     overflow: hidden;
 }
 
@@ -101,6 +115,7 @@
         transform: translateX(-100%);
         transition: transform .3s ease-in-out;
     }
+
 }
     </style>
 </head>
@@ -110,8 +125,10 @@
 	<nav class="navbar navbar-light bg-light">
 		<div class="container-fluid">
 			<!-- Brand -->
-			<a class="navbar-brand" href=".">Yivi Attribute Index</a>
-			
+			<a class="navbar-brand" href=".">
+				<img src="{{assets}}/logo.svg" alt="Logo" height="30" width="auto">
+				<span>Attribute Index</span>
+			</a>			
 			<!-- Search Form with Dropdown -->
 			<div class="search dropdown ms-auto">
 				<input type="search" class="form-control" placeholder="Search..."/>
@@ -148,7 +165,7 @@
                                 <ul class="nav flex-column ms-3">
                                     {% for schememgr in index %}
                                     <li class="nav-item">
-                                        <a class="nav-link {% if schememgr.identifier == identifier %}active fw-bold{% endif %}"
+                                        <a class="nav-link {% if schememgr.identifier == identifier %}active {% endif %}"
                                            href="{{ schememgr.identifier }}.html">
                                             {{ schememgr.identifier }}
                                         </a>

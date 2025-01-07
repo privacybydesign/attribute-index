@@ -161,6 +161,10 @@ def generateHTML(index, out, lang):
            index=index,
            LANG=lang,
            identifier='glossary')
+    render(out + '/issue-demo-creds.html', 'issue-demo-creds.html',
+        index=index,
+        LANG=lang,
+        identifier='issue-demo-creds')       
 
     for schememgr in index:
         render(out + '/' + schememgr['identifier'] + '.html', 'schememgr.html',
