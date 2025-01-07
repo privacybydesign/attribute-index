@@ -12,12 +12,14 @@ function searchChange(e) {
   var string = e.target.value.toLowerCase();
   var searchresults = document.querySelector('#searchresults');
   searchresults.innerHTML = '';
-  if (searchresults.classList.contains('show') != (string != '')) {
-    // Ugly hack: use a fake button click to show the search results.
-    document.querySelector('.search button.dropdown-toggle').click();
-  }
 
-  if (!string) {
+  // Create a Bootstrap 5 dropdown instance if it doesn't exist
+  var dropdown = bootstrap.Dropdown.getOrCreateInstance(e.target);
+  
+  if (string) {
+    dropdown.show();
+  } else {
+    dropdown.hide();
     return;
   }
 
@@ -29,40 +31,48 @@ function searchChange(e) {
 }
 
 function doSearch(searchresults, string) {
-  // This is a very simple search algorithm, but should get the job done.
-  // It searches in the attribute identifier and name.
-  var seen = {}; // set of paths that have been seen
-  var count = 0;
-  for (var schememgr of index) {
-    var issuerKeys = Object.keys(schememgr.issuers);
-    issuerKeys.sort();
-    for (var i=0; i<issuerKeys.length; i++) {
-      var issuer = schememgr.issuers[issuerKeys[i]];
-      var credentialKeys = Object.keys(issuer.credentials);
-      credentialKeys.sort();
-      for (var j=0; j<credentialKeys.length; j++) {
-        var credential = issuer.credentials[credentialKeys[j]];
-        for (var attribute of credential.attributes) {
-          if (attribute.identifier.toLowerCase().indexOf(string) >= 0 || attribute.name[LANG].toLowerCase().indexOf(string) >= 0) {
-            seen[attribute.identifier] = null; // insert into set
-            count++;
-            var el = document.querySelector('#templates > .searchresult').cloneNode(true);
-            el.setAttribute('href', credential.identifier + '.html#' + attribute.identifier);
-            el.querySelector('.credential').textContent = credential.name[LANG];
-            el.querySelector('.attribute').textContent = attribute.name[LANG];
-            el.querySelector('.identifier').textContent = attribute.identifier;
-            searchresults.appendChild(el);
+    // Keep track of seen paths and count
+    const seen = new Set();
+    let count = 0;
 
-            if (count >= MAX_SEARCH) {
-              return count;
+    // Iterate through the index
+    for (const schememgr of index) {
+        const issuerKeys = Object.keys(schememgr.issuers).sort();
+        
+        for (const issuerId of issuerKeys) {
+            const issuer = schememgr.issuers[issuerId];
+            const credentialKeys = Object.keys(issuer.credentials).sort();
+            
+            for (const credentialId of credentialKeys) {
+                const credential = issuer.credentials[credentialId];
+                
+                for (const attribute of credential.attributes) {
+                    // Check if attribute matches search string
+                    if (attribute.identifier.toLowerCase().includes(string) || 
+                        attribute.name[LANG].toLowerCase().includes(string)) {
+                        
+                        // Skip if we've seen this attribute before
+                        if (seen.has(attribute.identifier)) continue;
+                        seen.add(attribute.identifier);
+                        count++;
+
+                        // Create search result element
+                        const el = document.querySelector('#templates > .searchresult').cloneNode(true);
+                        el.href = `${credential.identifier}.html#${attribute.identifier}`;
+                        el.querySelector('.credential').textContent = credential.name[LANG];
+                        el.querySelector('.attribute').textContent = attribute.name[LANG];
+                        el.querySelector('.identifier').textContent = attribute.identifier;
+                        searchresults.appendChild(el);
+
+                        // Stop if we've reached the maximum number of results
+                        if (count >= MAX_SEARCH) return count;
+                    }
+                }
             }
-          }
         }
-      }
     }
-  }
 
-  return count;
+    return count;
 }
 
 // Manually issue a test credential.
@@ -138,12 +148,8 @@ function findCredType(credentialID) {
 }
 
 function init() {
-  document.querySelector('.toggle-nav').onclick = function(e) {
-    e.preventDefault();
-    document.body.classList.toggle('show-nav');
-  };
-
-  document.querySelector('input[type=search]').oninput = searchChange;
+ 
+  document.querySelector('.dropdown input[type=search]').oninput = searchChange;
 
   var forms = document.querySelectorAll('form.diy-credential');
   for (var i=0; i<forms.length; i++) {
