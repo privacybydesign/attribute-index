@@ -3,21 +3,77 @@
 {% block title %}About{% endblock title %}
 
 {% block main %}
-	<h2>About</h2>
-	<p>Here you will find an overview of all credentials currently issued by or known to the Privacy by Design Foundation. This overview is generated from the XML files of the <a href="glossary.html#scheme-manager">schemes</a> listed below. For more information, see the <a href="glossary.html">glossary</a>.</p>
-	<h3>Schemes</h3>
-	<dl class="schememanagers">
-		{% for schememgr in index %}
-		<dt><a href="{{ schememgr.id }}.html">{{ schememgr.name[LANG] }}</a></dt>
-		<dd>
-			<p>{{ schememgr.description[LANG] }}</p>
-			<p>The following issuers are contained in this scheme:</p>
-			<ul>
-				{% for issuerId, issuer in schememgr.issuers.items() | sort %}
-				<li><a href="{{ issuer.identifier }}.html">{{ issuer.name[LANG] }}</a></li>
-				{% endfor %}
-			</ul>
-		</dd>
-		{% endfor %}
-	</dl>
+	<h2>Yivi Credential Scheme</h2>
+	<p>Yivi is a privacy-friendly identity solution, that can be used to issue and verify identity materials or credentials. 
+		Yivi credentials are unique in that they consist of attributes that can be independently disclosed, 
+		allowing the rest of the identity to remain undisclosed. An attribute describes a 
+		single aspect of an identity. The cards below illustrate how the various components of the Yivi trust system are addressed throughout 
+		the Yivi ecosystem.  More in depth explanation
+	can be found in the <a href="https://docs.yivi.app/"> Yivi Documentation</a>.</p>
+<!-- HTML Structure using Bootstrap classes -->
+<div class="card">
+	<div class="card-header p-0">
+	  <ul class="nav nav-tabs" role="tablist">
+		<li class="nav-item" role="presentation">
+		  <button class="nav-link active" id="first-tab" data-bs-toggle="tab" data-bs-target="#Schemes" 
+			type="button" role="tab" aria-controls="Schemes" aria-selected="true">
+			Schemes
+		  </button>
+		</li>
+		<li class="nav-item" role="presentation">
+		  <button class="nav-link" id="second-tab" data-bs-toggle="tab" data-bs-target="#Issuers"
+			type="button" role="tab" aria-controls="Issuers" aria-selected="false">
+			Issuers
+		  </button>
+		</li>
+		<li class="nav-item" role="presentation">
+			<button class="nav-link" id="third-tab" data-bs-toggle="tab" data-bs-target="#Credentials"
+			  type="button" role="tab" aria-controls="Credentials" aria-selected="false">
+			  Credentials
+			</button>
+		  </li>
+		<li class="nav-item" role="presentation">
+			<button class="nav-link" id="third-tab" data-bs-toggle="tab" data-bs-target="#Attributes"
+				type="button" role="tab" aria-controls="Attributes" aria-selected="false">
+				Attributes
+			</button>
+		</li>
+	  </ul>
+	</div>
+	<div class="card-body">
+	  <div class="tab-content">
+		<div class="tab-pane fade show active" id="Schemes" role="tabpanel" aria-labelledby="first-tab">
+			<div class="card-body">
+				A schemes is a directory containing all information about the issuers, the credentials they issue, and the attributes
+				these credentials carry. 
+				Currently Yivi bears two schemes. One that is jointly managed by Privacy by Design Foundation and Yivi team at Caesar
+				and a demo scheme to demonstrate new credentials and test out additions to the main scheme.
+				Scheme is the first part in addressing a credential or attribute.
+			</div>
+		</div>
+		<div class="tab-pane fade" id="Issuers" role="tabpanel" aria-labelledby="second-tab">
+			<div class="card-body">
+				Issuers in the IRMA system are trusted parties that create and give out digital credentials to users. Issuers can issue different types of credentials, 
+				but they must be approved by a scheme manager before they can start issuing them. and Issuer within a scheme can be addressed as:
+				<b>scheme.issuer</b>
+			</div>
+		</div>
+		<div class="tab-pane fade" id="Credentials" role="tabpanel" aria-labelledby="third-tab">
+			  <div class="card-body">
+				A credential contains a group of attributes that describe a user's identity, 
+				as verified and signed by the Identity Provider (Issuer). A credential in Yivi can be adressed as:
+				<b>scheme.issuer.credential</b>
+			</div>
+		</div>
+		<div class="tab-pane fade" id="Attributes" role="tabpanel" aria-labelledby="fourth-tab">
+			  <div class="card-body">
+				An attribute is the smallest unit Yivi credential system. Each attribute describes a single feature of a person's identity. 
+				such as age or address. By design, it is possible to disclose even a single attribute from list of all attributes in 
+				the credential. The attribute is addressed as: <b>scheme.issuer.credential.attribute</b>
+			   </div>
+		</div>
+	  </div>
+	</div>
+  </div>
+
 {% endblock main %}

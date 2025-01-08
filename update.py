@@ -162,6 +162,33 @@ def generateHTML(index, out, lang):
            LANG=lang,
            identifier='glossary')
 
+    
+
+    organized_data = []
+    for schememgr in index:
+        scheme_data = {
+            'identifier': schememgr['identifier'],
+            'name': schememgr['name'],
+            'issuers': []
+        }
+        
+        for issuerId, issuer in sorted(schememgr['issuers'].items()):
+            issuer_data = {
+                'identifier': issuer['identifier'],
+                'name': issuer['name'],
+                'credentials': []
+            }
+            
+            for credentialId, credential in sorted(issuer['credentials'].items()):
+                issuer_data['credentials'].append({
+                    'identifier': credential['identifier'],
+                    'name': credential['name']
+                })
+            
+            scheme_data['issuers'].append(issuer_data)
+        
+        organized_data.append(scheme_data)
+
     for schememgr in index:
         render(out + '/' + schememgr['identifier'] + '.html', 'schememgr.html',
                index=index,
@@ -184,20 +211,30 @@ def generateHTML(index, out, lang):
                        LANG=lang,
                        identifier=credential['identifier'])
 
-
-if __name__ == '__main__':
-    # TODO: put this in a config file?
-    schememanagers = [{
-        'source': 'pbdf-schememanager',
-        'github': 'https://github.com/privacybydesign/pbdf-schememanager/blob/master'
-    }, {
-        'source': 'irma-demo-schememanager',
-        'github': 'https://github.com/privacybydesign/irma-demo-schememanager/blob/master',
-    }]
-    index = []
-    for info in schememanagers:
-        index.append(readSchemeManager(info['source'], info['github']))
-    json.dump(index, open('index.json', 'w'))
+                    
+                       
+    render(out + '/credential-navigator.html', 'credential-navigator.html',
+        index=index,
+        organized_data=organized_data,
+        LANG=lang,
+        identifier='credential-navigator')
     
-    generateHTML(index, 'en', 'en')
-    generateHTML(index, 'nl', 'nl')
+if __name__ == '__main__':
+    config_file = 'config.json'
+    if os.path.exists(config_file):
+        with open(config_file) as f:
+            schememanagers = json.load(f)
+    try:
+        index = []
+        for info in schememanagers:
+            index.append(readSchemeManager(info['source'], info['github']))
+        
+        with open('index.json', 'w') as json_file:
+            json.dump(index, json_file)
+        print("JSON file generated: index.json")
+
+        generateHTML(index, 'en', 'en')
+        generateHTML(index, 'nl', 'nl')
+
+    except Exception as e:
+        print(f"An error occurred: {e}")

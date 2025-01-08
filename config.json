@@ -1,0 +1,15 @@
+[
+    {
+      "source": "repos/pbdf-schememanager",
+      "github": "https://github.com/privacybydesign/pbdf-schememanager/blob/master"
+    },
+    {
+      "source": "repos/irma-demo-schememanager",
+      "github": "https://github.com/privacybydesign/irma-demo-schememanager/blob/master"
+    },
+    {
+        "source": "repos/pbdf-staging",
+        "github": "https://github.com/privacybydesign/pbdf-staging/blob/main"
+      }
+  ]
+  

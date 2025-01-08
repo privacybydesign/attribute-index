@@ -1,68 +1,168 @@
 <!DOCTYPE html>
-
 <html lang="{{ LANG }}">
-	<head>
-		<meta charset="utf-8"/>
-		<title>{% block title %}{% endblock %} - IRMA credentials</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1"/>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-		<link rel="stylesheet" href="{{ assets }}/style.css"/>
-		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous" defer></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous" defer></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous" defer></script>
-		<script>
-			const INDEX_URL = '{{ assets }}/index.json';
-		</script>
-		<script src="{{ assets }}/script.js" defer></script>
-	</head>
-	<body>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>{% block title %}{% endblock %} - IRMA credentials</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{assets}}/style.css">
+
+    <!-- JavaScript Constants -->
+    <script>
+        const INDEX_URL = '{{ assets }}/index.json';
+    </script>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js" defer></script>
+    <script src="{{ assets }}/script.js" defer></script>
+
+    
+</head>
+
+<body>
+    <!-- Main Navigation Bar -->
+	<nav class="navbar navbar-light bg-light">
 		<div class="container-fluid">
-			<a class="toggle-nav btn btn-light float-right mt-2" href onclick="return false;">☰</a>
-			<h1>IRMA attributes</h1>
-			<ul id="tree" class="nav nav-pills flex-column" role="navigation"/>
-				<li class="search dropdown mb-2">
-					<input type="search" class="form-control" placeholder="Search..."/>
-					<button class="btn d-none dropdown-toggle" data-toggle="dropdown"><!-- dummy, hack --></button>
-					<div id="searchresults" class="dropdown-menu"></div>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link {{ "" | active(identifier) }}" href=".">About</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link {{ "glossary" | active(identifier) }}" href="glossary.html">Glossary</a>
-				</li>
-				{% for schememgr in index %}
-				<li class="nav-item">
-					<a class="nav-link {{ schememgr.identifier | active(identifier) }}" href="{{ schememgr.identifier }}.html">{{ schememgr.name[LANG] }}</a>
-					<ul class="nav nav-pills flex-column">
-						{% for issuerId, issuer in schememgr.issuers.items() | sort %}
-						<li class="nav-item">
-							<a class="nav-link {{ issuer.identifier | active(identifier) }}" href="{{ issuer.identifier }}.html" title="{{ issuer.name[LANG] }}" data-toggle="tooltip" data-placement="right">{{ issuer.shortName[LANG] }}</a>
-							<ul class="nav nav-pills flex-column">
-								{% for credentialId, credential in issuer.credentials.items() | sort %}
-								<li class="nav-item">
-									<a class="nav-link {{ credential.identifier | active(identifier) }}" title="{{ credential.name[LANG] }}" href="{{ credential.identifier }}.html" data-toggle="tooltip" data-placement="right">{{ credential.shortName[LANG] }}</a>
-								</li>
-								{% endfor %}
-							</ul>
-						</li>
-						{% endfor %}
-					</ul>
-				</li>
-				{% endfor %}
-			</ul>
-			<div id="main">
-				{% block main %}{% endblock %}
+			<!-- Brand -->
+            <a class="navbar-brand d-flex align-items-center" href=".">
+                <img src="{{assets}}/logo.svg" alt="Logo" height="30" width="auto" class="me-2">
+                <span>Attribute Index</span>
+            </a>                        
+			<!-- Search Form with Dropdown -->
+			<div class="search dropdown ms-auto" >
+				<input type="search" class="form-control" placeholder="Search..."/>
+				<button class="btn d-none dropdown-toggle" data-bs-toggle="dropdown"><!-- dummy, hack --></button>
+				<div id="searchresults" class="dropdown-menu dropdown-menu-end" style="width: max-content; min-width: 300px"></div>
 			</div>
 		</div>
-		<div id="templates">
-			<a class="searchresult dropdown-item">
-				<div><span class="credential"></span> » <span class="attribute"></span></div>
-				<div class="identifier"></div>
-			</a>
-			<div class="no-searchresult dropdown-item disabled">
-				No attributes found
-			</div>
-		</div>
-	</body>
+	</nav>
+
+    <!-- Main Content Container -->
+    <div class="flex-container">
+        <div class="d-flex flex-row w-100">
+            <!-- Sidebar Navigation -->
+            <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+                <div class="position-sticky pt-3">
+                    <ul id="tree" class="nav flex-column w-100" role="navigation">
+                        <!-- Static Links -->
+                        <li class="nav-item">
+                            <a class="nav-link {{ "" | active(identifier) }}" href=".">Yivi Credentials System</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ "credential-navigator" | active(identifier) }}" href="credential-navigator.html">Credential Navigator</a>
+                        </li>
+                        
+                        <!-- Collapsible Available Schemes Section -->
+                        <li class="nav-item">
+                            <a class="nav-link" 
+                               data-bs-toggle="collapse" 
+                               href="#collapse-available-schemes" 
+                               role="button" 
+                               aria-expanded="false" 
+                               aria-controls="collapse-available-schemes">
+                                Available Schemes
+                            </a>
+            
+                            <div class="collapse show" id="collapse-available-schemes">
+                                <ul class="nav flex-column ms-3">
+                                    {% for schememgr in index %}
+                                    <li class="nav-item">
+                                        <div class="d-flex align-items-center">
+                                            <!-- Scheme navigation link -->
+                                            <a class="nav-link flex-grow-1 {% if schememgr.identifier == identifier %}active{% endif %}" 
+                                               href="{{ schememgr.identifier }}.html">
+                                                {{ schememgr.name[LANG] }} 
+                                            </a>
+            
+                                            <!-- Collapse toggle button -->
+                                            <button class="btn btn-link btn-sm p-0" 
+                                                    data-bs-toggle="collapse" 
+                                                    data-bs-target="#collapse-{{ schememgr.identifier }}" 
+                                                    aria-expanded="false" 
+                                                    aria-controls="collapse-{{ schememgr.identifier }}">
+                                                <i class="bi bi-chevron-down"></i>
+                                            </button>
+                                        </div>
+            
+                                        <!-- Collapsible children -->
+                                        <div class="collapse {% if schememgr.identifier in identifier %}show{% endif %}" 
+                                             id="collapse-{{ schememgr.identifier }}">
+                                            <div class="ms-3">
+                                                <!-- Issuers Section -->
+                                                <div class="nav-text small text-muted fw-bold ps-3 mt-2">Issuers</div>
+                                                <ul class="nav flex-column">
+                                                    {% for issuerId, issuer in schememgr.issuers|dictsort %}
+                                                    <li class="nav-item">
+                                                        <div class="d-flex align-items-center">
+                                                            <!-- Issuer navigation link -->
+                                                            <a class="nav-link flex-grow-1 {% if issuer.identifier == identifier %}active{% endif %}" 
+                                                               href="{{ issuer.identifier }}.html">
+                                                                {{ issuer.name[LANG] }}
+                                                            </a>
+            
+                                                            <!-- Collapse toggle button -->
+                                                            <button class="btn btn-link btn-sm p-0" 
+                                                                    data-bs-toggle="collapse" 
+                                                                    data-bs-target="#collapse-{{ issuer.identifier }}" 
+                                                                    aria-expanded="false" 
+                                                                    aria-controls="collapse-{{ issuer.identifier }}">
+                                                                <i class="bi bi-chevron-down"></i>
+                                                            </button>
+                                                        </div>
+            
+                                                        <!-- Collapsible credentials -->
+                                                        <div class="collapse {% if issuer.identifier in identifier %}show{% endif %}" 
+                                                             id="collapse-{{ issuer.identifier }}">
+                                                            <div class="ms-3">
+                                                                <!-- Credentials Section -->
+                                                                <div class="nav-text small text-muted fw-bold ps-3 mt-2">Credentials</div>
+                                                                <ul class="nav flex-column">
+                                                                    {% for credentialId, credential in issuer.credentials|dictsort %}
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link small {% if credential.identifier == identifier %}active{% endif %}" 
+                                                                           href="{{ credential.identifier }}.html">
+                                                                            {{ credential.name[LANG] }}
+                                                                        </a>
+                                                                    </li>
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+
+            <!-- Main Content Area -->
+            <main class="col d-flex flex-column flex-grow-1">
+                <div id="main" class="p-4">
+                    {% block main %}{% endblock %}
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Templates for Search Results -->
+	<div id="templates">
+        <a class="searchresult dropdown-item">
+            <div><span class="credential"></span> » <span class="attribute"></span></div>
+            <div class="identifier"></div>
+        </a>
+        <div class="no-searchresult dropdown-item disabled">
+            No attributes found
+        </div>
+    </div>
+</body>
 </html>

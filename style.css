@@ -1,15 +1,6 @@
 /* https://aykevl.nl/2014/09/fix-jumping-scrollbar */
-@media screen and (min-width: 55rem) {
-	html {
-		margin-left: calc(100vw - 100%);
-		margin-right: 0;
-	}
-}
 
-body {
-	max-width: 50rem;
-	margin: 0 auto;
-}
+
 
 /* small screen */
 body:not(.show-nav) #tree {
@@ -28,22 +19,16 @@ body.show-nav .toggle-nav {
 		display: block;
 	}
 
-	#tree {
-		max-width: calc(14rem - 50px);
-		float: left;
-	}
 
-	#main {
-		margin-left: 14rem;
-	}
+
 }
 
 .nav-item .nav-item .nav-link {
-	padding-left: 2rem;
+	padding-left: 1rem;
 }
 
 .nav-item .nav-item .nav-item .nav-link {
-	padding-left: 3rem;
+	padding-left: 2rem;
 }
 
 .subtitle {
@@ -64,8 +49,7 @@ body.show-nav .toggle-nav {
 }
 
 #searchresults {
-	/* Sorry about this... It is required to correctly position the search box
-	 * when using a d-none button to toggle the dropdown. */
+	width: 100%;
 	top: initial !important;
 	transform: initial !important;
 }
@@ -80,4 +64,128 @@ h1 {
 
 .items {
 	margin-left: 1.5rem;
+}
+
+body {
+	min-height: 100vh;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
+	font-family: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", sans-serif, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
+}
+
+.container-fluid {
+    padding: 10px 20px;
+}
+.navbar {
+	width: 100%;
+	max-width: 100vw;
+	padding: 0;
+	color: #520928 !important;
+
+}
+.nav-link{
+	color: #74334e !important;
+
+}
+
+.sidebar {
+	min-height: calc(100vh - 56px);
+}
+
+#main {
+	width: 80%;
+	height: 100%;
+}
+
+.nav-link.active {
+	background-color: #e9ecef;
+	color: #520928 !important;
+	font-weight: bold;
+	
+}
+
+h1,h2,h3 {
+	color: #520928;
+}
+
+a {
+	color: #360c1d;
+	text-decoration: none;
+}
+
+/* Search related styles */
+#searchresults {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.searchresult .credential {
+	font-weight: bold;
+}
+
+
+.searchresult .identifier {
+	font-size: 0.8em;
+	color: #666;
+}
+.search.dropdown {
+    padding-right: 1rem;
+    margin-left: auto; /* This is the correct way to write ms-auto */
+}
+body.show-nav {
+	
+overflow: hidden;
+}
+
+@media (max-width: 767.98px) {
+body.show-nav .sidebar {
+transform: translateX(0);
+}
+
+.sidebar {
+position: fixed;
+top: 56px;
+bottom: 0;
+left: 0;
+z-index: 100;
+transform: translateX(-100%);
+transition: transform .3s ease-in-out;
+}}
+
+.text-burgundy {
+    color: #520928;
+}
+
+.credential-details h5 {
+    color: #520928;
+    margin-top: 1.5rem;
+    font-weight: 600;
+}
+
+.font-monospace {
+    font-family: monospace;
+}
+
+.attribute-name {
+    font-size: 1.1rem;
+    color: #520928;
+}
+
+.subtitle {
+    color: #666;
+}
+
+.navbar {
+    background-color: var(--ifm-navbar-background-color)!important;
+    height: var(--ifm-navbar-height)!important;
+    padding: var(--ifm-navbar-padding-vertical) var(--ifm-navbar-padding-horizontal)!important;
+
+    /* Add a box-shadow directly */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Example shadow */
+}
+
+.navbar-brand{
+	
 }
