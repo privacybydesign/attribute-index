@@ -12,12 +12,9 @@ Dependencies:
   * [Jinja2](http://jinja.pocoo.org/) (Debian package: `python3-jinja2`)
   * yarn
 
-Before content can be generated, the scheme managers need to be downloaded:
+Before generating content, download the scheme managers by running `download_repos.py`.
+To add a scheme, configure the schemes config in `config.json`.
 
-    git clone git@github.com:privacybydesign/pbdf-schememanager.git
-    git clone git@github.com:privacybydesign/irma-demo-schememanager.git
-
-Currently the paths for these are hardcoded, but that can be changed if needed.
 
 ## Running
 
