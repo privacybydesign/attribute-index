@@ -7,6 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{assets}}/style.css">
 
     <!-- JavaScript Constants -->
     <script>
@@ -17,107 +18,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js" defer></script>
     <script src="{{ assets }}/script.js" defer></script>
 
-    <style>
-        body {
-            min-height: 100vh;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", sans-serif, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
-        }
-
-        .container-fluid {
-            width: 100vw;
-            max-width: 100%;
-            margin: 0;
-            padding-left: 0;
-            padding-right: 0;
-        }
-
-        .navbar {
-            width: 100%;
-            max-width: 100vw;
-            padding: 0;
-			color: #520928 !important;
-
-        }
-		.nav-link{
-			color: #74334e !important;
-
-		}
-
-        .navbar > .container-fluid {
-            padding: 0.5rem 1rem;
-        }
-
-        .sidebar {
-            min-height: calc(100vh - 56px);
-        }
-
-        #main {
-            width: 80%;
-            height: 100%;
-        }
-
-        .nav-link.active {
-            background-color: #e9ecef;
-            color: #520928 !important;
-			font-weight: bold;
-			
-        }
-
-		h1,h2,h3 {
-			color: #520928;
-		}
-		
-		a {
-			color: #360c1d;
-			text-decoration: none;
-		}
-
-        /* Search related styles */
-        .search-container {
-            position: relative;
-            max-width: 300px;
-        }
-
-        #searchresults {
-            width: 100%;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .searchresult .credential {
-            font-weight: bold;
-        }
-
-        .searchresult .identifier {
-            font-size: 0.8em;
-            color: #666;
-        }
-		body.show-nav {
-			
-    overflow: hidden;
-}
-
-@media (max-width: 767.98px) {
-    body.show-nav .sidebar {
-        transform: translateX(0);
-    }
-
-    .sidebar {
-        position: fixed;
-        top: 56px;
-        bottom: 0;
-        left: 0;
-        z-index: 100;
-        transform: translateX(-100%);
-        transition: transform .3s ease-in-out;
-    }
-
-}
-    </style>
+    
 </head>
 
 <body>
@@ -125,12 +26,12 @@
 	<nav class="navbar navbar-light bg-light">
 		<div class="container-fluid">
 			<!-- Brand -->
-			<a class="navbar-brand" href=".">
-				<img src="{{assets}}/logo.svg" alt="Logo" height="30" width="auto">
-				<span>Attribute Index</span>
-			</a>			
+            <a class="navbar-brand d-flex align-items-center" href=".">
+                <img src="{{assets}}/logo.svg" alt="Logo" height="30" width="auto" class="me-2">
+                <span>Attribute Index</span>
+            </a>                        
 			<!-- Search Form with Dropdown -->
-			<div class="search dropdown ms-auto">
+			<div class="search dropdown ms-auto" >
 				<input type="search" class="form-control" placeholder="Search..."/>
 				<button class="btn d-none dropdown-toggle" data-bs-toggle="dropdown"><!-- dummy, hack --></button>
 				<div id="searchresults" class="dropdown-menu dropdown-menu-end" style="width: max-content; min-width: 300px"></div>
@@ -145,30 +46,95 @@
             <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
                 <div class="position-sticky pt-3">
                     <ul id="tree" class="nav flex-column w-100" role="navigation">
+                        <!-- Static Links -->
                         <li class="nav-item">
                             <a class="nav-link {{ "" | active(identifier) }}" href=".">Yivi Credentials System</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ "issue-demo-creds" | active(identifier) }}" href="issue-demo-creds.html">Try Demo Credentials</a>
+                            <a class="nav-link {{ "credential-navigator" | active(identifier) }}" href="credential-navigator.html">Credential Navigator</a>
                         </li>
                         
-                        <!-- Dynamic Schema Manager Items -->
+                        <!-- Collapsible Available Schemes Section -->
                         <li class="nav-item">
-                            <a class="nav-link {% if identifier in index | map(attribute='identifier') %}active{% endif %}"
+                            <a class="nav-link" 
                                data-bs-toggle="collapse" 
-                               href="#collapse-schemes">
-                                Schemes
+                               href="#collapse-available-schemes" 
+                               role="button" 
+                               aria-expanded="false" 
+                               aria-controls="collapse-available-schemes">
+                                Available Schemes
                             </a>
-                            
-                            <div class="collapse {% if identifier in index | map(attribute='identifier') %}show{% endif %}" 
-                                 id="collapse-schemes">
+            
+                            <div class="collapse show" id="collapse-available-schemes">
                                 <ul class="nav flex-column ms-3">
                                     {% for schememgr in index %}
                                     <li class="nav-item">
-                                        <a class="nav-link {% if schememgr.identifier == identifier %}active {% endif %}"
-                                           href="{{ schememgr.identifier }}.html">
-                                            {{ schememgr.identifier }}
-                                        </a>
+                                        <div class="d-flex align-items-center">
+                                            <!-- Scheme navigation link -->
+                                            <a class="nav-link flex-grow-1 {% if schememgr.identifier == identifier %}active{% endif %}" 
+                                               href="{{ schememgr.identifier }}.html">
+                                                {{ schememgr.name[LANG] }} 
+                                            </a>
+            
+                                            <!-- Collapse toggle button -->
+                                            <button class="btn btn-link btn-sm p-0" 
+                                                    data-bs-toggle="collapse" 
+                                                    data-bs-target="#collapse-{{ schememgr.identifier }}" 
+                                                    aria-expanded="false" 
+                                                    aria-controls="collapse-{{ schememgr.identifier }}">
+                                                <i class="bi bi-chevron-down"></i>
+                                            </button>
+                                        </div>
+            
+                                        <!-- Collapsible children -->
+                                        <div class="collapse {% if schememgr.identifier in identifier %}show{% endif %}" 
+                                             id="collapse-{{ schememgr.identifier }}">
+                                            <div class="ms-3">
+                                                <!-- Issuers Section -->
+                                                <div class="nav-text small text-muted fw-bold ps-3 mt-2">Issuers</div>
+                                                <ul class="nav flex-column">
+                                                    {% for issuerId, issuer in schememgr.issuers|dictsort %}
+                                                    <li class="nav-item">
+                                                        <div class="d-flex align-items-center">
+                                                            <!-- Issuer navigation link -->
+                                                            <a class="nav-link flex-grow-1 {% if issuer.identifier == identifier %}active{% endif %}" 
+                                                               href="{{ issuer.identifier }}.html">
+                                                                {{ issuer.name[LANG] }}
+                                                            </a>
+            
+                                                            <!-- Collapse toggle button -->
+                                                            <button class="btn btn-link btn-sm p-0" 
+                                                                    data-bs-toggle="collapse" 
+                                                                    data-bs-target="#collapse-{{ issuer.identifier }}" 
+                                                                    aria-expanded="false" 
+                                                                    aria-controls="collapse-{{ issuer.identifier }}">
+                                                                <i class="bi bi-chevron-down"></i>
+                                                            </button>
+                                                        </div>
+            
+                                                        <!-- Collapsible credentials -->
+                                                        <div class="collapse {% if issuer.identifier in identifier %}show{% endif %}" 
+                                                             id="collapse-{{ issuer.identifier }}">
+                                                            <div class="ms-3">
+                                                                <!-- Credentials Section -->
+                                                                <div class="nav-text small text-muted fw-bold ps-3 mt-2">Credentials</div>
+                                                                <ul class="nav flex-column">
+                                                                    {% for credentialId, credential in issuer.credentials|dictsort %}
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link small {% if credential.identifier == identifier %}active{% endif %}" 
+                                                                           href="{{ credential.identifier }}.html">
+                                                                            {{ credential.name[LANG] }}
+                                                                        </a>
+                                                                    </li>
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </li>
                                     {% endfor %}
                                 </ul>
@@ -177,6 +143,7 @@
                     </ul>
                 </div>
             </nav>
+            
 
             <!-- Main Content Area -->
             <main class="col d-flex flex-column flex-grow-1">

@@ -161,10 +161,33 @@ def generateHTML(index, out, lang):
            index=index,
            LANG=lang,
            identifier='glossary')
-    render(out + '/issue-demo-creds.html', 'issue-demo-creds.html',
-        index=index,
-        LANG=lang,
-        identifier='issue-demo-creds')       
+
+    
+
+    organized_data = []
+    for schememgr in index:
+        scheme_data = {
+            'identifier': schememgr['identifier'],
+            'name': schememgr['name'],
+            'issuers': []
+        }
+        
+        for issuerId, issuer in sorted(schememgr['issuers'].items()):
+            issuer_data = {
+                'identifier': issuer['identifier'],
+                'name': issuer['name'],
+                'credentials': []
+            }
+            
+            for credentialId, credential in sorted(issuer['credentials'].items()):
+                issuer_data['credentials'].append({
+                    'identifier': credential['identifier'],
+                    'name': credential['name']
+                })
+            
+            scheme_data['issuers'].append(issuer_data)
+        
+        organized_data.append(scheme_data)
 
     for schememgr in index:
         render(out + '/' + schememgr['identifier'] + '.html', 'schememgr.html',
@@ -188,6 +211,14 @@ def generateHTML(index, out, lang):
                        LANG=lang,
                        identifier=credential['identifier'])
 
+                    
+                       
+    render(out + '/credential-navigator.html', 'credential-navigator.html',
+        index=index,
+        organized_data=organized_data,
+        LANG=lang,
+        identifier='credential-navigator')
+    
 
 if __name__ == '__main__':
     # TODO: put this in a config file?
