@@ -219,20 +219,22 @@ def generateHTML(index, out, lang):
         LANG=lang,
         identifier='credential-navigator')
     
-
 if __name__ == '__main__':
-    # TODO: put this in a config file?
-    schememanagers = [{
-        'source': 'pbdf-schememanager',
-        'github': 'https://github.com/privacybydesign/pbdf-schememanager/blob/master'
-    }, {
-        'source': 'irma-demo-schememanager',
-        'github': 'https://github.com/privacybydesign/irma-demo-schememanager/blob/master',
-    }]
-    index = []
-    for info in schememanagers:
-        index.append(readSchemeManager(info['source'], info['github']))
-    json.dump(index, open('index.json', 'w'))
-    
-    generateHTML(index, 'en', 'en')
-    generateHTML(index, 'nl', 'nl')
+    config_file = 'config.json'
+    if os.path.exists(config_file):
+        with open(config_file) as f:
+            schememanagers = json.load(f)
+    try:
+        index = []
+        for info in schememanagers:
+            index.append(readSchemeManager(info['source'], info['github']))
+        
+        with open('index.json', 'w') as json_file:
+            json.dump(index, json_file)
+        print("JSON file generated: index.json")
+
+        generateHTML(index, 'en', 'en')
+        generateHTML(index, 'nl', 'nl')
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
