@@ -110,7 +110,7 @@ def readIssuer(path):
 
     return issuer
 
-def readSchemeManager(path, githubURL):
+def readSchemeManager(path):
     schememgr = {}
 
     xml = minidom.parse(path + '/description.xml')
@@ -119,7 +119,6 @@ def readSchemeManager(path, githubURL):
         'name':              translated(xml.getElementsByTagName('Name')[0]),
         'description':       translated(xml.getElementsByTagName('Description')[0]),
         'url':               getText(xml.getElementsByTagName('Url')[0]),
-        'github':            githubURL,
         'contact':           getText(xml.getElementsByTagName('Contact')[0]),
         'keyshareServer':    None,
         'keyshareWebsite':   None,
@@ -147,7 +146,6 @@ def readSchemeManager(path, githubURL):
             schememgr['issuers'][fn] = readIssuer(issuerPath)
 
     return schememgr
-
 
 def generateHTML(index, out, lang):
     os.makedirs(out, exist_ok=True)
@@ -227,7 +225,7 @@ if __name__ == '__main__':
     try:
         index = []
         for info in schememanagers:
-            index.append(readSchemeManager(info['source'], info['github']))
+            index.append(readSchemeManager(info['PATH']))
         
         with open('index.json', 'w') as json_file:
             json.dump(index, json_file)
