@@ -15,7 +15,6 @@ Dependencies:
 Before generating content, download the scheme managers by running `download_repos.py`.
 To add a scheme, configure the schemes config in `config.json`.
 
-
 ## Running
 
 To generate the HTML for the attribute index, run the script:
@@ -29,6 +28,13 @@ To generate the JavaScript handling issuance sessions of demo credentials, run:
 
     yarn
     yarn run build
+
+## Running with Docker
+
+To build and run the Docker container, build and run the docker image via the following:
+
+    docker build -t attribute-index .
+    docker run -p 80:80 attribute-index
 
 ## Using untrusted scheme managers
 
