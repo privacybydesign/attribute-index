@@ -1,35 +1,28 @@
 import os
 import json
-import subprocess
+import requests
+import zipfile
+import io
 
-def clone_or_update_repo(source, github_url, base_dir="."):
-    """
-    Clones or updates a GitHub repository based on the source and GitHub URL.
+def download_and_extract_zip(url, base_dir="."):
+    repo_dir = os.path.join(base_dir, "repos")
+    os.makedirs(repo_dir, exist_ok=True)
     
-    Args:
-        source (str): Name of the source directory to store the repo.
-        github_url (str): URL of the GitHub repository.
-        base_dir (str): Base directory where the repos are stored.
-    """
-    os.makedirs(base_dir, exist_ok=True)
-    
-    repo_dir = os.path.join(base_dir, source)
-    
-    if github_url.endswith("/blob/master"):
-        github_url = github_url.replace("/blob/master", ".git")
-    elif github_url.endswith("/blob/main"):
-        github_url = github_url.replace("/blob/main", ".git")
-    elif github_url.endswith("/master"):
-        github_url = github_url.replace("/master", ".git")
-    elif github_url.endswith("/main"):
-        github_url = github_url.replace("/main", ".git")
-    
-    if os.path.exists(repo_dir):
-        print(f"Updating repository: {source}")
-        subprocess.run(["git", "-C", repo_dir, "pull"], check=True)
+    response = requests.get(url)
+    if response.status_code == 200:
+        with zipfile.ZipFile(io.BytesIO(response.content)) as zip_ref:
+            zip_ref.extractall(repo_dir)
+        
+        # Rename directories if they end with -master or -main
+        for root, dirs, files in os.walk(repo_dir):
+            for dir_name in dirs:
+                if dir_name.endswith("-master") or dir_name.endswith("-main"):
+                    new_name = dir_name.rsplit("-", 1)[0]
+                    os.rename(os.path.join(root, dir_name), os.path.join(root, new_name))
+        
+        print(f"Downloaded and extracted zip file to: {repo_dir}")
     else:
-        print(f"Cloning repository: {source}")
-        subprocess.run(["git", "clone", github_url, repo_dir], check=True)
+        print(f"Failed to download zip from {url}. Status code: {response.status_code}")
 
 def main():
     config_file = "config.json"
@@ -41,16 +34,15 @@ def main():
     with open(config_file, "r") as file:
         config = json.load(file)
     
-    for repo in config:
-        source = repo.get("source")
-        github_url = repo.get("github")
-        if source and github_url:
+    for scheme in config:
+        zip_url = scheme.get("url")
+        if zip_url:
             try:
-                clone_or_update_repo(source, github_url)
-            except subprocess.CalledProcessError as e:
-                print(f"Error processing {source}: {e}")
+                download_and_extract_zip(zip_url)
+            except requests.RequestException as e:
+                print(f"Error processing {zip_url}: {e}")
         else:
-            print(f"Invalid configuration entry: {repo}")
+            print(f"Invalid configuration entry: {scheme}")
 
 if __name__ == "__main__":
     main()

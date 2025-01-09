@@ -110,7 +110,7 @@ def readIssuer(path):
 
     return issuer
 
-def readSchemeManager(path, githubURL):
+def readSchemeManager(path):
     schememgr = {}
 
     xml = minidom.parse(path + '/description.xml')
@@ -119,7 +119,44 @@ def readSchemeManager(path, githubURL):
         'name':              translated(xml.getElementsByTagName('Name')[0]),
         'description':       translated(xml.getElementsByTagName('Description')[0]),
         'url':               getText(xml.getElementsByTagName('Url')[0]),
-        'github':            githubURL,
+        'contact':           getText(xml.getElementsByTagName('Contact')[0]),
+        'keyshareServer':    None,
+        'keyshareWebsite':   None,
+        'keyshareAttribute': None,
+        'issuers':           {},
+    }
+    schememgr['identifier'] = schememgr['id'] # for consistency
+    schememgr['test'] = bool(os.path.exists(path + '/sk.pem'))
+
+    keyshareServerElements = xml.getElementsByTagName('KeyshareServer')
+    if keyshareServerElements:
+        schememgr['keyshareServer'] = getText(keyshareServerElements[0])
+
+    keyshareWebsiteElements = xml.getElementsByTagName('KeyshareWebsite')
+    if keyshareWebsiteElements:
+        schememgr['keyshareWebsite'] = getText(keyshareWebsiteElements[0])
+
+    keyshareAttributeElements = xml.getElementsByTagName('KeyshareAttribute')
+    if keyshareAttributeElements:
+        schememgr['keyshareAttribute'] = getText(keyshareAttributeElements[0])
+
+    for fn in sorted(os.listdir(path)):
+        issuerPath = path + '/' + fn
+        if os.path.exists(issuerPath + '/description.xml'):
+            schememgr['issuers'][fn] = readIssuer(issuerPath)
+
+    return schememgr
+
+
+def readSchemeManagerFromXML(path):
+    schememgr = {}
+
+    xml = minidom.parse(path + '/description.xml')
+    schememgr = {
+        'id':                getText(xml.getElementsByTagName('Id')[0]),
+        'name':              translated(xml.getElementsByTagName('Name')[0]),
+        'description':       translated(xml.getElementsByTagName('Description')[0]),
+        'url':               getText(xml.getElementsByTagName('Url')[0]),
         'contact':           getText(xml.getElementsByTagName('Contact')[0]),
         'keyshareServer':    None,
         'keyshareWebsite':   None,
@@ -227,7 +264,7 @@ if __name__ == '__main__':
     try:
         index = []
         for info in schememanagers:
-            index.append(readSchemeManager(info['source'], info['github']))
+            index.append(readSchemeManager(info['PATH']))
         
         with open('index.json', 'w') as json_file:
             json.dump(index, json_file)
