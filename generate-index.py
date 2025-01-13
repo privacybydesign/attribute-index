@@ -105,10 +105,14 @@ def readIssuer(path):
     }
     issuer['identifier'] = '%s.%s' % (issuer['schememgr'], issuer['id'])
 
-    for fn in sorted(os.listdir(path + '/Issues')):
-        issuer['credentials'][fn] = readCredential(path + '/Issues/' + fn)
+    for filename in sorted(os.listdir(path + '/Issues')):
+        issuer['credentials'][filename] = readCredential(path + '/Issues/' + filename)
 
     return issuer
+
+def get_issuer_name(issuer_tuple):
+    filename, issuer = issuer_tuple   
+    return issuer['name']['en']  
 
 def readSchemeManager(path):
     schememgr = {}
@@ -139,11 +143,16 @@ def readSchemeManager(path):
     keyshareAttributeElements = xml.getElementsByTagName('KeyshareAttribute')
     if keyshareAttributeElements:
         schememgr['keyshareAttribute'] = getText(keyshareAttributeElements[0])
-
-    for fn in sorted(os.listdir(path)):
-        issuerPath = path + '/' + fn
+    issuer_list = []
+    for filename in sorted(os.listdir(path)):
+        issuerPath = path + '/' + filename
         if os.path.exists(issuerPath + '/description.xml'):
-            schememgr['issuers'][fn] = readIssuer(issuerPath)
+            issuer= readIssuer(issuerPath)
+            issuer_list.append((filename, issuer))
+    sorted_issuers=sorted(issuer_list, key=get_issuer_name)
+
+    for filename, issuer in sorted_issuers:
+        schememgr['issuers'][filename]= issuer
 
     return schememgr
 
