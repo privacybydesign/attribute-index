@@ -31,12 +31,9 @@ To generate the JavaScript handling issuance sessions of demo credentials, run:
 
 ## Running with Docker
 
-To build and run the Docker container, build and run the docker image via the following:
+To build and run the Docker container, you can use docker compose file
 
-    docker build -t attribute-index .
-    docker run -p 80:80 attribute-index
-
-## Using untrusted scheme managers
+    docker compose up
 
 Currently, scheme managers are considered trusted. Generating an attribute index
 for an untrusted scheme manager has at least the following problems at the

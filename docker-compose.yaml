@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  attribute-index:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    environment:
+      - NODE_OPTIONS=--openssl-legacy-provider
+    restart: unless-stopped
