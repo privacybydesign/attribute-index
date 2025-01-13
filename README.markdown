@@ -1,6 +1,6 @@
 # Attribute index
 
-Generate documentation for the IRMA scheme manager. You can browse a live
+Generate documentation for the Yivi scheme manager. You can browse a live
 version [over here](https://privacybydesign.foundation/attribute-index/en/).
 
 ## Installing
@@ -12,17 +12,15 @@ Dependencies:
   * [Jinja2](http://jinja.pocoo.org/) (Debian package: `python3-jinja2`)
   * yarn
 
-Before generating content, download the scheme managers by running `download_repos.py`.
-To add a scheme, configure the schemes config in `config.json`.
 
 ## Running
 
-To generate the HTML for the attribute index, run the script:
+Before you run the script to generate Yivi index pages run the `download_repos.py` script. This downloalds
+most recent version of the schemes. If new schemes are added, you can modify the `config.json` file to add them.
 
-    python3 update.py
+    python3 download_repos.py
+    python3 generate-index.py
 
-If you want to have an up-to-date attribute index, it is recommended to update
-the scheme managers regularly and run the update script afterwards.
 
 To generate the JavaScript handling issuance sessions of demo credentials, run:
 

@@ -18,12 +18,12 @@ FROM python:3.9-slim AS python-build
 WORKDIR /app
 COPY --from=node-build /app ./
 
-COPY download_repos.py update.py config.json ./
+COPY download_repos.py generate-index.py config.json ./
 RUN ls -l /app
 
 RUN pip install --no-cache-dir Jinja2 requests && \
     python3 download_repos.py && \
-    python3 -u update.py 
+    python3 -u generate-index.py 
 
 # --- Stage 3: Final nginx stage
 FROM nginx:stable
