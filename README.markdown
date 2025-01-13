@@ -31,7 +31,7 @@ To generate the JavaScript handling issuance sessions of demo credentials, run:
 
 ## Running with Docker
 
-To build and run the Docker container, you can use docker compose file
+To build and run the Docker container, you can use docker compose:
 
     docker compose up
 
