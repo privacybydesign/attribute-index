@@ -93,7 +93,7 @@
                                                 <!-- Issuers Section -->
                                                 <div class="nav-text small text-muted fw-bold ps-3 mt-2">Issuers</div>
                                                 <ul class="nav flex-column">
-                                                    {% for issuerId, issuer in schememgr.issuers|dictsort %}
+                                                    {% for issuerId, issuer in schememgr.issuers.items() %}
                                                     <li class="nav-item">
                                                         <div class="d-flex align-items-center">
                                                             <!-- Issuer navigation link -->
