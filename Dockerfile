@@ -1,31 +1,45 @@
-FROM python:3.9-slim
+# --- Stage 1 Node build
+FROM node:18-slim AS node-build
 
-WORKDIR /
+WORKDIR /app
 
-RUN apt-get update && \
-    apt-get install -y curl apache2 && \
-    curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
-    apt-get install -y nodejs && \
-    npm install -g yarn && \
-    pip install Jinja2 && \
-    pip install requests
+COPY src ./
+COPY webpack.config.js yarn.lock package.json ./
 
-ENV NODE_OPTIONS=--openssl-legacy-provider
+RUN yarn install --frozen-lockfile
 
+ENV NODE_OPTIONS="--openssl-legacy-provider"
 COPY . .
-RUN python3 download_repos.py && \
-    python3 -u update.py && \
-    test -f index.json && \
-    yarn && yarn build && \
-    mkdir -p /var/www/html && \
-    cp -r /en /var/www/html/ && \
-    cp -r /nl /var/www/html/ && \
-    cp -r /repos /var/www/html/ && \
-    cp style.css /var/www/html/ && \
-    cp logo.svg /var/www/html/ && \
-    cp script.js /var/www/html/ && \
-    cp index.json /var/www/html/
+RUN yarn build
+
+# --- Stage 2 Python build
+FROM python:3.9-slim AS python-build
+
+WORKDIR /app
+COPY --from=node-build /app ./
+
+COPY download_repos.py generate-index.py config.json ./
+RUN ls -l /app
+
+RUN pip install --no-cache-dir Jinja2 requests && \
+    python3 download_repos.py && \
+    python3 -u generate-index.py 
+
+# --- Stage 3: Final nginx stage
+FROM nginx:stable
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+COPY --from=python-build /app/en/ /var/www/html/en/
+COPY --from=python-build /app/nl/ /var/www/html/nl/
+COPY --from=python-build /app/repos/ /var/www/html/repos/
+COPY --from=python-build /app/index.json /var/www/html/
+COPY --from=node-build /app/script.js /var/www/html/
+COPY style.css logo.svg /var/www/html/
+
+RUN chown -R nginx:nginx /var/www/html && \
+    chmod -R 755 /var/www/html
 
 EXPOSE 80
 
-CMD ["apache2ctl", "-D", "FOREGROUND"]
+CMD ["nginx", "-g", "daemon off;"]
