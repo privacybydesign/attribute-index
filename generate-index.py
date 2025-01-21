@@ -94,12 +94,14 @@ def readCredential(path):
 
 def readIssuer(path):
     xml = minidom.parse(path + '/description.xml')
+    deprecated = xml.getElementsByTagName('DeprecatedSince')
     issuer = {
         'id':           getText(xml.getElementsByTagName('ID')[0]),
         'schememgr':    getText(xml.getElementsByTagName('SchemeManager')[0]),
         'shortName':    translated(xml.getElementsByTagName('ShortName')[0]),
         'name':         translated(xml.getElementsByTagName('Name')[0]),
         'contactEmail': getText(xml.getElementsByTagName('ContactEMail')[0]),
+        'deprecated':   getTime(deprecated[0]) if len(deprecated) > 0 else None,
         'logo':         path + '/logo.png',
         'credentials':  {},
     }
@@ -116,7 +118,6 @@ def get_issuer_name(issuer_tuple):
 
 def readSchemeManager(path):
     schememgr = {}
-
     xml = minidom.parse(path + '/description.xml')
     schememgr = {
         'id':                getText(xml.getElementsByTagName('Id')[0]),
@@ -169,8 +170,6 @@ def generateHTML(index, out, lang):
            LANG=lang,
            identifier='glossary')
 
-    
-
     organized_data = []
     for schememgr in index:
         scheme_data = {
@@ -218,8 +217,6 @@ def generateHTML(index, out, lang):
                        LANG=lang,
                        identifier=credential['identifier'])
 
-                    
-                       
     render(out + '/credential-navigator.html', 'credential-navigator.html',
         index=index,
         organized_data=organized_data,
@@ -231,17 +228,13 @@ if __name__ == '__main__':
     if os.path.exists(config_file):
         with open(config_file) as f:
             schememanagers = json.load(f)
-    try:
-        index = []
-        for info in schememanagers:
-            index.append(readSchemeManager(info['PATH']))
-        
-        with open('index.json', 'w') as json_file:
-            json.dump(index, json_file)
-        print("JSON file generated: index.json")
+    index = []
+    for info in schememanagers:
+        index.append(readSchemeManager(info['PATH']))
+    
+    with open('index.json', 'w') as json_file:
+        json.dump(index, json_file)
+    print("JSON file generated: index.json")
 
-        generateHTML(index, 'en', 'en')
-        generateHTML(index, 'nl', 'nl')
-
-    except Exception as e:
-        print(f"An error occurred: {e}")
+    generateHTML(index, 'en', 'en')
+    generateHTML(index, 'nl', 'nl')
