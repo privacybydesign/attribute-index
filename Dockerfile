@@ -26,7 +26,7 @@ RUN pip install --no-cache-dir Jinja2 requests && \
     python3 -u generate-index.py 
 
 # --- Stage 3: Final nginx stage
-FROM nginx:stable
+FROM nginx:stable-alpine
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
