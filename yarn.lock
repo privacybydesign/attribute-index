@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@privacybydesign/irma-frontend@^0.4.3":
-  version "0.4.3"
-  resolved "https://registry.npmjs.org/@privacybydesign/irma-frontend/-/irma-frontend-0.4.3.tgz"
-  integrity sha512-1UFNUI4cqAYXFndgcywckgEZKYqtz/eTXmH83gFNYkeBQzv8PKygowrrSOFlb5HUWaXCNnMeTTxVnZH4eLy9EQ==
+"@privacybydesign/yivi-frontend@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@privacybydesign/yivi-frontend/-/yivi-frontend-0.1.3.tgz#aa54aea3178d570f8a989069f2d2e7cc5cdbc675"
+  integrity sha512-cT6JRbli8HaTVB2z0Tmvrd0ln2ByHbcpTNHnOCbvl0SeLXfBGGIOUMpV+HwIg5xMuznMaonjA0572v7tL8Wc9w==
 
 "@types/eslint-scope@^3.7.0":
   version "3.7.0"

@@ -1,10 +1,10 @@
 'use strict';
 
-const irma = require('@privacybydesign/irma-frontend');
+const yivi = require('@privacybydesign/yivi-frontend');
 
 const LANG = document.getElementsByTagName("html")[0].getAttribute("lang");
 const MAX_SEARCH = 8; // max number of search results in the results dropdown
-const IRMA_SERVER = 'https://demo.privacybydesign.foundation/backend';
+const IRMA_SERVER = 'https://is.demo.staging.yivi.app';
 
 var index;
 
@@ -107,7 +107,7 @@ function issue(e) {
     request.credentials[0].revocationKey = revocationKey();
   console.log('issuing test attributes:', request);
 
-  irma.newPopup({
+  yivi.newPopup({
     session: {
       url: IRMA_SERVER,
       start: {
