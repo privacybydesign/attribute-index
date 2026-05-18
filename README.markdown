@@ -1,7 +1,7 @@
 # Attribute index
 
-Generate documentation for the Yivi scheme manager. You can browse a live
-version [over here](https://privacybydesign.foundation/attribute-index/en/).
+Generates documentation for the Yivi scheme manager. You can browse a live
+version [over here](https://attribute-index.yivi.app/en/).
 
 ## Installing
 

@@ -4,7 +4,7 @@ const irma = require('@privacybydesign/irma-frontend');
 
 const LANG = document.getElementsByTagName("html")[0].getAttribute("lang");
 const MAX_SEARCH = 8; // max number of search results in the results dropdown
-const IRMA_SERVER = 'https://demo.privacybydesign.foundation/backend';
+const IRMA_SERVER = process.env.IRMA_SERVER || 'https://is.yivi.app';
 
 var index;
 
