@@ -1,6 +1,6 @@
 'use strict';
 
-const yivi = require('@privacybydesign/yivi-frontend');
+const yivi = require('@privacybydesign/yivi-frontend/umd');
 
 const LANG = document.getElementsByTagName("html")[0].getAttribute("lang");
 const MAX_SEARCH = 8; // max number of search results in the results dropdown
