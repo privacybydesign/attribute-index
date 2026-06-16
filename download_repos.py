@@ -4,15 +4,23 @@ import requests
 import zipfile
 import io
 
+# (connect, read) timeout in seconds for the GitHub download. Keeps the build
+# from hanging indefinitely when a remote is unresponsive (see issue #28).
+REQUEST_TIMEOUT = (10, 60)
+
 def download_and_extract_zip(url, base_dir="."):
     repo_dir = os.path.join(base_dir, "repos")
     os.makedirs(repo_dir, exist_ok=True)
-    
-    response = requests.get(url)
+
+    response = requests.get(url, timeout=REQUEST_TIMEOUT)
     if response.status_code == 200:
-        with zipfile.ZipFile(io.BytesIO(response.content)) as zip_ref:
-            zip_ref.extractall(repo_dir)
-        
+        try:
+            with zipfile.ZipFile(io.BytesIO(response.content)) as zip_ref:
+                zip_ref.extractall(repo_dir)
+        except zipfile.BadZipFile as e:
+            print(f"Failed to extract zip from {url}: {e}")
+            return
+
         # Rename directories if they end with -master or -main
         for root, dirs, files in os.walk(repo_dir):
             for dir_name in dirs:
@@ -39,6 +47,8 @@ def main():
         if zip_url:
             try:
                 download_and_extract_zip(zip_url)
+            except requests.Timeout as e:
+                print(f"Timed out downloading {zip_url}: {e}")
             except requests.RequestException as e:
                 print(f"Error processing {zip_url}: {e}")
         else:
